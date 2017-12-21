@@ -2,8 +2,195 @@
 <html>
 <head>
 	<title>One Day Log</title>
+
+  <!-- jQuery -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+
+  <!-- Bootstrap-->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/4.8.0/firebase.js"></script>
+
 </head>
 <body>
+	<div class="jumbotron">
+		<h1 class="text-center">Daily Calorie Checker</h1>
+		<h3 class="text-center">Track your calories. Track your health
+			<br><br><span id="date">Today's Date</span>
+		</h3>
+	</div> <!-- end jumbotron -->
+
+<!-- Food Section -->
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12">
+				<!-- Add Food  -->
+	      <div class="panel panel-default">
+	        <div class="panel-heading">
+	          <h3 class="panel-title"><strong>Add Food</strong></h3>
+	        </div>
+	      <div class="panel-body">
+
+	      <form>
+	        <div class="col-md-2">
+		        <div class="form-group">
+		          <label for="meal-name-input">Meal</label>
+		          <select class="form-control" id="meal-time-input" type="text">
+		          	<option>Breakfast</option>
+		          	<option>Brunch</option>
+		          	<option>Lunch</option>
+		          	<option>Dinner</option>
+		          	<option>Snack</option>
+		          </select>
+		        </div>
+	        </div>
+		      <div class="col-md-2">
+		        <div class="form-group">
+		          <label for="quantity-input">Quantity</label>
+		          <input class="form-control" id="quantity-input" type="text">
+		        </div>
+		      </div>	        
+	        <div class="col-md-5">
+		        <div class="form-group">
+		          <label for="food-input">Food</label>
+		          <input class="form-control" id="food-input" type="text">
+		        </div>
+		      </div>
+		      <div class="col-md-3">
+	        	<button class="btn btn-primary add-submit-btn" type="submit" style="margin-top: 9%">Submit</button>
+	        </div>
+	      </form>
+	    </div> <!-- end col-lg-12 -->
+	  </div> <!-- end row -->
+	</div> <!-- end Food Input container -->
+
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12">
+			  <div class="panel panel-default">
+			  	<div class="panel-heading">
+			    	<h3 class="panel-title"><strong>Today's Meals</strong></h3>
+				  </div>
+				  <div class="panel-body">
+				  	<table class="table table-hover" id='meal-table'>
+				      <thead>
+				        <tr>
+									<th>Meal</th>
+									<th>Food</th> 
+									<th>Quantity</th>
+									<th>Calories Gained</th>
+									<th>Remove</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div> <!-- end col-lg-12 -->
+		</div><!--  end row -->
+	</div> <!-- end Food Output container -->
+
+<!-- Exercise Section -->
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12">
+				<!-- Add Exercise  -->
+	      <div class="panel panel-default">
+	        <div class="panel-heading">
+	          <h3 class="panel-title"><strong>Add Exercise</strong></h3>
+	        </div>
+	      <div class="panel-body">
+
+	      <!-- Entry Form -->
+	      <form>
+	        <div class="col-md-2">
+		        <div class="form-group">
+		          <label for="exercise-duration-input">Duration (min)</label>
+		          <input class="form-control" id="exercise-duration-input" type="text">
+		        </div>
+		      </div>	
+					<div class="col-md-2">
+		        <div class="form-group">
+		          <label for="exercise-dropdown-input">Exercise</label>
+		          <select class="form-control" id="exercise-dropdown-input" type="text">
+		          	<option>Walking</option>
+		          	<option>Running</option>
+		          	<option>Bicycling</option>
+		          </select>
+		        </div>
+	        </div>
+		      <div class="col-md-1">
+		        <div class="form-group">
+		          <label for="exercise-start-input">or</label>
+		        </div>
+		      </div>	        
+	        <div class="col-md-7">
+		        <div class="form-group">
+		          <label for="exercise-string-input">Exercise</label>
+		          <input class="form-control" id="exercise-string-input" type="text">
+		        </div>
+		      </div>
+
+		      <div class="col-md-5">
+		        <div class="form-group">
+		          <label for="quantity-input">Start Location</label>
+		          <input class="form-control" id="exercise-start-input" type="text">
+		        </div>
+		      </div>	        
+	        <div class="col-md-5">
+		        <div class="form-group">
+		          <label for="food-input">End Location</label>
+		          <input class="form-control" id="exercise-end-input" type="text">
+		        </div>
+		      </div>
+		      <div class="col-md-2">
+	        	<button class="btn btn-primary add-submit-btn" type="submit" style="margin-top: 17%">Submit</button>
+	        </div>
+	      </form>
+	    </div> <!-- end col-lg-12 -->
+	  </div> <!-- end row -->
+	</div> <!-- end Exercise Input container -->
+      
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12">
+			  <div class="panel panel-default">
+			  	<div class="panel-heading">
+			    	<h3 class="panel-title"><strong>Today's Exercises</strong></h3>
+				  </div>
+				  <div class="panel-body">
+				  	<table class="table table-hover" id='meal-table'>
+				      <thead>
+				        <tr>
+									<th>Time</th>
+									<th>Type</th> 
+									<th>Calories Burned</th>
+									<th>Remove</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div> <!-- end col-lg-12 -->
+		</div><!--  end row -->
+	</div> <!-- end container -->
+
+
+	<script>
+		// Today's date
+		var d = new Date();
+		document.getElementById("date").innerHTML = d.toDateString();
+
+		// prevent submitting form
+		$(".add-submit-btn").on("click", function(event) {
+			event.preventDefault();
+		})
+	</script>
 
 
 </body>
