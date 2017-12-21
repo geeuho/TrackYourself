@@ -1,4 +1,4 @@
-$('#submit-btn').on('click', function(){
+$('#submit-btn').on('click', function() {
 	var userInput = $('#user-input').val().trim();
 
 	callNutritionixNaturalLanguage(userInput);
