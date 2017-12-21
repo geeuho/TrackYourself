@@ -13,6 +13,16 @@
   <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/4.8.0/firebase.js"></script>
 
+	<!-- Google Map -->
+	<style>
+		#map-canvas {
+		    height: 400px;
+		    width: 100%;
+		    /*overflow:hidden;
+		    z-index:-999;*/
+		}
+	</style>
+
 </head>
 <body>
 	<div class="jumbotron">
@@ -59,7 +69,7 @@
 		        </div>
 		      </div>
 		      <div class="col-md-3">
-	        	<button class="btn btn-primary add-submit-btn" type="submit" style="margin-top: 9%">Submit</button>
+	        	<button class="btn btn-primary add-submit-btn" type="submit" style="margin-top: 23px">Submit</button>
 	        </div>
 	      </form>
 	    </div> <!-- end col-lg-12 -->
@@ -134,20 +144,30 @@
 		        </div>
 		      </div>
 
+		      <!-- new row -->
 		      <div class="col-md-5">
+		        <div class="form-group">
+		          <label for="quantity-input">
+		          	<a href="#" onclick="expand();">ShowMap </a>
+		          	<a href="#" onclick="collapse();"> | HideMap</a>
+		          </label>
+		          <div id="map-canvas"></div>
+		        </div>
+		      </div>
+		      <div class="col-md-3">
 		        <div class="form-group">
 		          <label for="quantity-input">Start Location</label>
 		          <input class="form-control" id="exercise-start-input" type="text">
 		        </div>
 		      </div>	        
-	        <div class="col-md-5">
+	        <div class="col-md-3">
 		        <div class="form-group">
 		          <label for="food-input">End Location</label>
 		          <input class="form-control" id="exercise-end-input" type="text">
 		        </div>
 		      </div>
-		      <div class="col-md-2">
-	        	<button class="btn btn-primary add-submit-btn" type="submit" style="margin-top: 17%">Submit</button>
+		      <div class="col-md-1">
+	        	<button class="btn btn-primary add-submit-btn" type="submit" style="margin-top: 25px">Submit</button>
 	        </div>
 	      </form>
 	    </div> <!-- end col-lg-12 -->
@@ -191,6 +211,46 @@
 		$(".add-submit-btn").on("click", function(event) {
 			event.preventDefault();
 		})
+	</script>
+
+  <!-- Jquery UI -->
+ 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
+	<!-- Google Map API-->
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD_7P47w5-ZHqh-PtTcXj1KEq8DwutQ4GA"></script>
+
+	<!-- Google Map Expand/Hide in Input Table -->
+	<script>
+		var map;
+		var mapOptions = {
+		  center: new google.maps.LatLng(54.89832877373636, -2.9350662231445312),
+		  zoom: 11,
+	    mapTypeId: google.maps.MapTypeId.ROADMAP
+		};
+
+		function init() {
+		  map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+		}
+
+		init();
+
+		$(document).ready(function() {
+		  $("#map-canvas").hide();
+		});
+
+		collapse = function(element) {
+		  $("#map-canvas").slideUp();
+		}
+
+		expand = function(element) {
+		  $("#map-canvas").slideDown(resizeMap);
+		}
+
+		function resizeMap() {
+		  var center2 = map.getCenter();
+		  google.maps.event.trigger(map, "resize"); // resize map
+	    map.setCenter(center2);
+		}
 	</script>
 
 
