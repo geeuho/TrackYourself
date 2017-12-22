@@ -1,0 +1,17 @@
+/*oneday.html*/
+
+/*Google Map API*/
+#map-canvas {
+	height: 400px;
+	width: 100%;
+	/*overflow:hidden;
+	z-index:-999;*/
+}
+
+#food-submit-btn {
+	margin-top: 24px;
+}
+
+#exercise-submit-btn {
+	margin-top: 25px;
+}
