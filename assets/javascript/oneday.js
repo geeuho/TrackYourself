@@ -33,8 +33,10 @@ $('#exercise-submit-btn').on('click', function(){
 	// Clear inputs
 	$('#exercise-duration-input').val('');
 
-	if(exercise.length === 0) {
-		exercise = $('#exercise-string-input').val('');
+	if($('#exercise-string-input').val().length > 0) {
+		$('#exercise-string-input').val('');
+	} else {
+		$($('#exercise-dropdown-input').children()[0]).prop('selected', true);
 	}
 
 });
