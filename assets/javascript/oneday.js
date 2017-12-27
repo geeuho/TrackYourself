@@ -10,21 +10,35 @@ $('#food-submit-btn').on('click', function(){
 	var food = $('#food-input').val().trim();
 
 	populateFoodTable(mealTime, quantity, food);
+
+	// Clear inputs
+	$('#quantity-input').val('');
+	$('#food-input').val('')
 });
 
 $('#exercise-submit-btn').on('click', function(){
-		var durationMins = $('#exercise-duration-input').val().trim();
-		var exercise = $('#exercise-dropdown-input option:selected').text();
+	var durationMins = $('#exercise-duration-input').val().trim();
+	var exercise = $('#exercise-dropdown-input option:selected').text();
 
-		if(exercise.length === 0) {
-			exercise = $('#exercise-string-input').val().trin();
-		}
+	if(exercise.length === 0) {
+		exercise = $('#exercise-string-input').val().trim();
+	}
 
-		// Appending the word 'minutes' to duration input in order
-		// to facilitate Nutritionix natural language API
-		durationMins = durationMins + ' minutes';
+	// Appending the word 'minutes' to duration input in order
+	// to facilitate Nutritionix natural language API
+	durationMins = durationMins + ' minutes';
 
-		populateExerciseTable(durationMins, exercise);
+	populateExerciseTable(durationMins, exercise);
+
+	// Clear inputs
+	$('#exercise-duration-input').val('');
+
+	if($('#exercise-string-input').val().length > 0) {
+		$('#exercise-string-input').val('');
+	} else {
+		$($('#exercise-dropdown-input').children()[0]).prop('selected', true);
+	}
+
 });
 
 $(document).on('click', '.delete-row', removeRowFromTable);
