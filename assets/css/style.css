@@ -8,10 +8,6 @@
 	z-index:-999;*/
 }
 
-#food-submit-btn {
-	margin-top: 24px;
-}
-
-#exercise-submit-btn {
-	margin-top: 25px;
+#food-submit-btn, #exercise-submit-btn {
+	margin-top: 14px;
 }

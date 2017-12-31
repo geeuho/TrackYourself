@@ -24,6 +24,7 @@
 	<link rel="stylesheet" href="assets/css/normalize.min.css">
 	<link rel="stylesheet" href="assets/css/animate.min.css">
 	<link rel="stylesheet" href="assets/css/flickity.min.css">
+	<link rel="stylesheet" href="assets/css/reset.css">
 	<link rel="stylesheet" href="assets/css/styles.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
@@ -130,6 +131,7 @@
 		        <div class="form-group">
 		          <label for="exercise-dropdown-input">Exercise</label>
 		          <select class="form-control" id="exercise-dropdown-input" type="text">
+		          	<option></option>
 		          	<option>Walking</option>
 		          	<option>Running</option>
 		          	<option>Bicycling</option>
@@ -206,11 +208,12 @@
 	</div> <!-- end container -->
 
 
+
+
 	<script>
 		// Today's date
 		var d = new Date();
 		document.getElementById("date").innerHTML = d.toDateString();
-
 		// prevent submitting form
 		$(".add-submit-btn").on("click", function(event) {
 			event.preventDefault();
@@ -231,25 +234,19 @@
 		  zoom: 11,
 	    mapTypeId: google.maps.MapTypeId.ROADMAP
 		};
-
 		function init() {
 		  map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
 		}
-
 		init();
-
 		$(document).ready(function() {
 		  $("#map-canvas").hide();
 		});
-
 		collapse = function(element) {
 		  $("#map-canvas").slideUp();
 		}
-
 		expand = function(element) {
 		  $("#map-canvas").slideDown(resizeMap);
 		}
-
 		function resizeMap() {
 		  var center2 = map.getCenter();
 		  google.maps.event.trigger(map, "resize"); // resize map
