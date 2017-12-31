@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	
+</head>
+<body>
+    <div class="container">
+        <input id="emailTxt" type = "email" placeholder="Email">
+
+        <input id="passwordTxt" type= "password" placeholder="Password">
+
+        <button id="Loginbutton" class="btn btn-action" onclick="submitlogin()">
+            Log in
+        </button>
+        
+        <button id="Signupbutton" class="btn btn-secondary" onclick="submitsignup()">
+            Sign Up
+        </button>
+
+        <button id="Logoutbutton" class="btn btn-action" onclick="userlogout()">
+            Log Out
+        </button>
+    </div>
+</body>
+
+<script src="https://www.gstatic.com/firebasejs/4.8.1/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyDpzzV93BHYk3TuMUzBB4EH4H-q7weShzg",
+    authDomain: "userinfo-fef20.firebaseapp.com",
+    databaseURL: "https://userinfo-fef20.firebaseio.com",
+    projectId: "userinfo-fef20",
+    storageBucket: "userinfo-fef20.appspot.com",
+    messagingSenderId: "329141712344"
+  };
+  firebase.initializeApp(config);
+
+  const emailTxt = $("#emailTxt");
+  const passwordTxt = $("#passwordTxt");
+  const Loginbutton =  $("Loginbutton");
+  const Signupbutton = $("Signupbutton");
+  const Logoutbutton = $("#Logoutbutton");
+
+  
+
+function submitlogin(){
+    
+    const email = emailTxt.val().trim();
+    const password = passwordTxt.val().trim();
+    const auth = firebase.auth();
+
+    const promise = auth.signInWithEmailAndPassword(email,password)
+    
+    promise.catch(function(error){
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        console.log('signIn error', error);
+    });
+}
+
+function submitsignup(){
+    const email = emailTxt.val().trim();
+    const password = passwordTxt.val().trim();
+    const auth = firebase.auth();
+    console.log(email);
+    console.log(password);
+
+    const promise = auth.createUserWithEmailAndPassword(email,password)
+
+    promise.catch(function(error){
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        console.log('signIn error', error);
+    });
+} 
+
+function userlogout(){
+    firebase.auth().signOut();
+}
+
+firebase.auth().onAuthStateChanged(function(user){
+    if(user){
+        console.log(user);
+        Logoutbutton.remove('hide');
+    }else{
+        console.log('not logged in');
+        Logoutbutton.add('hide');
+    }
+});
+
+
+</script>
