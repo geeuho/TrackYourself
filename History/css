@@ -1,0 +1,3 @@
+ui-datepicker-header {
+  color: red;
+}

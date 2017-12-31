@@ -1,2 +1,0 @@
-# TrackYourself
-Project 1
