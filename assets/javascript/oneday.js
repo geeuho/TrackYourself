@@ -18,6 +18,9 @@ var database = firebase.database();
 
 // Listeners
 $('#food-submit-btn').on('click', function(){
+	// Clear save messages
+	$('#save-messages').empty();
+
 	// Get meal time
 	var mealTime = $('#meal-time-input option:selected').text();
 	var quantity = $('#quantity-input').val().trim();
@@ -31,6 +34,9 @@ $('#food-submit-btn').on('click', function(){
 });
 
 $('#exercise-submit-btn').on('click', function(){
+	// Clear save messages
+	$('#save-messages').empty();
+
 	var durationMins = $('#exercise-duration-input').val().trim();
 	var exercise = $('#exercise-dropdown-input option:selected').text();
 
@@ -56,24 +62,47 @@ $('#exercise-submit-btn').on('click', function(){
 
 $(document).on('click', '.delete-row', removeRowFromTable);
 
-$('#save-btn').on('click', function() {
+$('#save').on('click', function(event) {
+	event.preventDefault();
+
 	// Check if there is anything to save
 	var foodResults = $('#food-results').children('tr');
 
 	var exerciseResults = $('#exercise-results').children('tr');
 
+	var span = $('<span></span>');
+	
 	if(foodResults.length === 0) {
-		console.log('No food data to save.');
+		
+		var br = $('<br>');
+
+		span.text('No food data to save.');
+		
+		$('#save-messages').append(span);
+		
+		$('#save-messages').append(br);
 
 	} else {
 		saveFoodRows(foodResults);
+
+		span.text('Food data saved.');
+		
+		$('#save-messages').append(span);
 	}
 
+	span = $('<span></span>');
+
 	if(exerciseResults.length === 0) {
-		console.log('No exercise data to save.');
+		span.text('No exercise data to save.');
+		
+		$('#save-messages').append(span);
 
 	} else {
 		saveExerciseRows(exerciseResults);
+
+		span.text('Exercise data saved.');
+		
+		$('#save-messages').append(span);
 	}
 });
 
