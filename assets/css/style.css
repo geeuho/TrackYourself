@@ -28,3 +28,10 @@
 	border-color: #7AE2DE !important;
 	color: #7AE2DE !important;
 }
+
+/*Nav login*/
+.dropdown-menu {
+		top: 130% !important;
+		left: -280px !important;
+		min-width: 240px !important;
+}
