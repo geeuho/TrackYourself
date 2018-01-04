@@ -58,6 +58,9 @@ $('#exercise-submit-btn').on('click', function(){
 	} else {
 		$($('#exercise-dropdown-input').children()[0]).prop('selected', true);
 	}
+
+	$('#exercise-start-input').val('');
+	$('#exercise-end-input').val('');
 });
 
 $(document).on('click', '.delete-row', removeRowFromTable);
