@@ -58,6 +58,9 @@ $('#exercise-submit-btn').on('click', function(){
 	} else {
 		$($('#exercise-dropdown-input').children()[0]).prop('selected', true);
 	}
+
+	$('#exercise-start-input').val('');
+	$('#exercise-end-input').val('');
 });
 
 $(document).on('click', '.delete-row', removeRowFromTable);
@@ -157,7 +160,7 @@ function populateFoodTable(mealTime, quantity, food) {
 
 		    var button = $('<button></button>');
 		    button.text('Delete');
-		    button.addClass('btn btn-primary delete-row');
+		    button.addClass('btn btn-primary add-submit-btn delete-row');
 
 		    td.append(button);
 		    tr.append(td);
@@ -220,7 +223,7 @@ function populateExerciseTable(durationInMinutes, exercise) {
 
 	    var button = $('<button></button>');
 	    button.text('Delete');
-	    button.addClass('btn btn-primary delete-row');
+	    button.addClass('btn btn-primary add-submit-btn delete-row');
 
 	    td.append(button);
 	    tr.append(td);
