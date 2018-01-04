@@ -58,7 +58,7 @@
 				</div>
 				<div class="primary-nav-wrapper">
 					<nav>
-						<ul class="primary-nav">
+						<ul class="primary-nav oneday">
 							<li><a href="#intro">Intro</a></li>
 							<li><a href="#product">How to Use</a></li>
 							<li><a href="#team">The crew</a></li>
@@ -66,8 +66,8 @@
 					</nav>
 					<div class="secondary-nav-wrapper">
 						<ul class="secondary-nav">
-							<li class="dropdown subscribe"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Login</a>
-			          <div class="dropdown-menu" style="top: 130%; left: -180px; min-width: 240px">
+							<li class="dropdown subscribe"><a class="dropdown-toggle loggedin-text" data-toggle="dropdown" href="#">Login</a>
+			          <div class="dropdown-menu loggedin-dropdown" style="top: 130%; left: -180px; min-width: 240px">
 			            <form id="formLogin" class="form container-fluid">
 			              <div class="form-group">
 			                <label for="usr">Username:</label>
@@ -77,11 +77,11 @@
 			                <label for="pwd">Password:</label>
 			                <input type="password" class="form-control" id="pwd">
 			              </div>
-			              <button type="button" id="btnLogin" class="btn secondary">Login</button>
+			              <button type="button" id="btnLogin" class="btn secondary login-text">Login</button>
 			            </form>
 			            <div class="container-fluid">
 			              <br>
-			              <a class="small" href="#">New? Click here</a><br><br>
+			              <a class="small" href="https://xtiane.github.io/TrackYourself/sign_up.html">New? Click here</a><br><br>
 			            </div> 
 			          </div>
 			        </li>
@@ -412,44 +412,6 @@
 					</article>
 				</div>
 			</div>
-			<div class="row skillset">
-				<div class="col-md-6">
-					<div class="bar-chart-wrapper">
-						<h5 class="bar-chart-text">Experience Design <span class="push-right">90%</span></h5>
-						<div class="bar-wrapper">
-							<div class="bar" data-percentage="90%">
-								<span></span>
-							</div>
-						</div>
-					</div>
-					<div class="bar-chart-wrapper">
-						<h5 class="bar-chart-text">HTML5/CSS3 <span class="push-right">95%</span></h5>
-						<div class="bar-wrapper">
-							<div class="bar" data-percentage="95%">
-								<span></span>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-6">
-					<div class="bar-chart-wrapper">
-						<h5 class="bar-chart-text">Interactive Prototyping <span class="push-right">80%</span></h5>
-						<div class="bar-wrapper">
-							<div class="bar" data-percentage="80%">
-								<span></span>
-							</div>
-						</div>
-					</div>
-					<div class="bar-chart-wrapper">
-						<h5 class="bar-chart-text">Visual Design <span class="push-right">90%</span></h5>
-						<div class="bar-wrapper">
-							<div class="bar" data-percentage="90%">
-								<span></span>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
 		</div>
 	</section>
 	<!-- END SECTION: Crew -->
@@ -479,9 +441,8 @@
 				<div class="col-md-12 footer-nav">
 					<ul class="footer-primary-nav">
 						<li><a href="#intro">Intro</a></li>
-						<li><a href="#team">The Crew</a></li>
 						<li><a href="articles#">How to Use</a></li>
-						<li><a href="#freebies">Freebies</a></li>
+						<li><a href="#team">The Crew</a></li>
 						<li><a href="#">Contact Us</a></li>
 					</ul>
 					<ul class="footer-share">
@@ -518,6 +479,12 @@
 	<script src="assets/javascript/min/jquery.waypoints.min.js"></script>
 	<script src="assets/javascript/min/flickity.pkgd.min.js"></script>
 	<script src="assets/javascript/min/scripts-min.js"></script>
+<!-- 	<script type="text/javascript">
+		$(".loggedin-dropdown").hide();
+		$(".loggedin-text").text("Log Out");
+		$(".oneday").append("<li><a href='#product'>One Day</a></li>")
+	</script> -->
+
 
 </body>
 
