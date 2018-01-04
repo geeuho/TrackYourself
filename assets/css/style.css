@@ -8,10 +8,30 @@
 	z-index:-999;*/
 }
 
-#food-submit-btn {
-	margin-top: 24px;
+#food-submit-btn, #exercise-submit-btn {
+	margin-top: 14px;
 }
 
-#exercise-submit-btn {
-	margin-top: 25px;
+.oneday-hero {
+	color: #414A52 !important;
+}
+#food-section {
+	margin-top: -305px;
+}
+.add-submit-btn {
+	background-color: #7AE2DE !important;
+	border-color: #7AE2DE !important;
+}
+
+.add-submit-btn:hover {
+	background-color: #fff !important;
+	border-color: #7AE2DE !important;
+	color: #7AE2DE !important;
+}
+
+/*Nav login*/
+.dropdown-menu {
+		top: 130% !important;
+		left: -280px !important;
+		min-width: 240px !important;
 }

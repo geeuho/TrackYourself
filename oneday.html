@@ -1,8 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>One Day Log</title>
-
+	<meta name="description" content="An easy way to track your calories gained and burned">
+	<meta name="keywords" content="free health tracker, new year resolutions, fitness, exercise" />
+	<meta name="author" content="" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- CSS -->
 	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
 
@@ -17,60 +22,107 @@
 
   <!-- Moment JS -->
 	<script type="text/javascript" src="assets/javascript/moment.min.js"></script>
-
+	<link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="assets/css/normalize.min.css">
+	<link rel="stylesheet" href="assets/css/animate.min.css">
+	<link rel="stylesheet" href="assets/css/flickity.min.css">
+	<link rel="stylesheet" href="assets/css/reset.css">
+	<link rel="stylesheet" href="assets/css/styles.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 </head>
 <body>
-	<div class="jumbotron">
-		<h1 class="text-center">Daily Calorie Checker</h1>
-		<h3 class="text-center">Track your calories. Track your health
-			<br><br><span id="date">Today's Date</span>
-		</h3>
-	</div> <!-- end jumbotron -->
+		<div class="container-fluid">
+		<div class="row">
+			<div class="header-nav-wrapper">
+				<div class="logo">
+					<a href="/index.html"><img src="assets/img/synthetica-logo.png" alt="Synthetica Freebie"></a>
+				</div>
+				<div class="primary-nav-wrapper">
+					<nav>
+						<ul class="primary-nav">
+							<li><a href="#">History</a></li>
+						</ul>
+					</nav>
+					<div class="secondary-nav-wrapper">
+						<ul class="secondary-nav">
+							<li class="subscribe"><a href="#get-started">Sign Out</a></li>
+							<li class="search"><a href="#search" class="show-search"><i class="fa fa-search"></i></a></li>
+						</ul>
+					</div>
+					<div class="search-wrapper">
+						<ul class="search">
+							<li>
+								<input type="text" id="search-input" placeholder="Start typing then hit enter to search">
+							</li>
+							<li>
+								<a href="#" class="hide-search"><i class="fa fa-close"></i></a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="navicon">
+					<a class="nav-toggle" href="#"><span></span></a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<header class="hero">
+		<div class="jumbotron">
+			<h1 class="text-center oneday-hero">Daily Calorie Checker</h1>
+			<h3 class="text-center oneday-hero">Track your calories. Track your health
+				<br><br><span id="date" class="oneday-hero">Today's Date</span>
+			</h3>
+		</div> <!-- end jumbotron -->
+	</header>
 
 	<!-- Food Section -->
-	<div class="container">
-		<div class="row">
-			<div class="col-lg-12">
-				<!-- Add Food  -->
-	      <div class="panel panel-default">
-	        <div class="panel-heading">
-	          <h3 class="panel-title"><strong>Add Food</strong></h3>
-	        </div>
-	      <div class="panel-body">
+	<section id="food-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<!-- Add Food  -->
+		      <div class="panel panel-default">
+		        <div class="panel-heading">
+		          <h3 class="panel-title"><strong>Add Food</strong></h3>
+		        </div>
+		      <div class="panel-body">
 
-	      <form>
-	        <div class="col-md-2">
-		        <div class="form-group">
-		          <label for="meal-name-input">Meal</label>
-		          <select class="form-control" id="meal-time-input" type="text">
-		          	<option>Breakfast</option>
-		          	<option>Brunch</option>
-		          	<option>Lunch</option>
-		          	<option>Dinner</option>
-		          	<option>Snack</option>
-		          </select>
+		      <form>
+		        <div class="col-md-2">
+			        <div class="form-group">
+			          <label for="meal-name-input">Meal</label>
+			          <select class="form-control" id="meal-time-input" type="text">
+			          	<option>Breakfast</option>
+			          	<option>Brunch</option>
+			          	<option>Lunch</option>
+			          	<option>Dinner</option>
+			          	<option>Snack</option>
+			          </select>
+			        </div>
 		        </div>
-	        </div>
-		      <div class="col-md-2">
-		        <div class="form-group">
-		          <label for="quantity-input">Quantity</label>
-		          <input class="form-control" id="quantity-input" type="text">
+			      <div class="col-md-2">
+			        <div class="form-group">
+			          <label for="quantity-input">Quantity</label>
+			          <input class="form-control" id="quantity-input" type="text">
+			        </div>
+			      </div>	        
+		        <div class="col-md-7">
+			        <div class="form-group">
+			          <label for="food-input">Food</label>
+			          <input class="form-control" id="food-input" type="text">
+			        </div>
+			      </div>
+			      <div class="col-md-1">
+		        	<button id="food-submit-btn" class="btn btn-primary add-submit-btn btn" type="submit">Submit</button>
 		        </div>
-		      </div>	        
-	        <div class="col-md-7">
-		        <div class="form-group">
-		          <label for="food-input">Food</label>
-		          <input class="form-control" id="food-input" type="text">
-		        </div>
-		      </div>
-		      <div class="col-md-1">
-	        	<button id="food-submit-btn" class="btn btn-primary add-submit-btn" type="submit">Submit</button>
-	        </div>
-	      </form>
-	    </div> <!-- end col-lg-12 -->
-	  </div> <!-- end row -->
-	</div> <!-- end Food Input container -->
+		      </form>
+	 	    </div> <!-- end col-lg-12 -->
+		  </div> <!-- end row -->
+		</div> <!-- end Food Input container -->
+	</section>
 
+
+<!-- Today's Meals Input -->
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-12">
@@ -163,7 +215,7 @@
 		        </div>
 		      </div>
 		      <div class="col-md-1">
-	        	<button id="exercise-submit-btn" class="btn btn-primary add-submit-btn" type="submit">Submit</button>
+	        	<button id="exercise-submit-btn" class="btn btn-primary add-submit-btn btn" type="submit">Submit</button>
 	        </div>
 	      </form>
 	    </div> <!-- end col-lg-12 -->
@@ -196,13 +248,60 @@
 			</div> <!-- end col-lg-12 -->
 		</div><!--  end row -->
 	</div> <!-- end container -->
+</div>
 
+	<section class="get-started has-padding text-center">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12 wp4">
+					<a href="#" id="save" class="btn secondary-white">Save</a>
+					<div id="save-messages"></div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- END SECTION: Get started -->
+	<!-- SECTION: Footer -->
+	<footer class="has-padding footer-bg">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4 footer-branding">
+					<img class="footer-branding-logo" src="assets/img/synthetica-logo.png" alt="Synthetica freebie html5 css3 template logo">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12 footer-nav">
+					<ul class="footer-primary-nav">
+						<li><a href="#intro">Intro</a></li>
+						<li><a href="#team">The Crew</a></li>
+						<li><a href="articles#">How to Use</a></li>
+						<li><a href="#freebies">Freebies</a></li>
+						<li><a href="#">Contact Us</a></li>
+					</ul>
+					<ul class="footer-share">
+						<li><a href="http://tympanus.net/codrops/licensing/">Licence</a></li>
+						<li><a href="#" class="share-trigger"><i class="fa fa-share"></i>Share</a></li>
+					</ul>
+					<div class="share-dropdown">
+						<ul>
+							<li><a href="#" class="share-twitter"><i class="fa fa-twitter"></i></a></li>
+							<li><a href="#" class="share-facebook"><i class="fa fa-facebook"></i></a></li>
+							<li><a href="#" class="share-linkedin"><i class="fa fa-linkedin"></i></a></li>
+						</ul>
+					</div>
+					<ul class="footer-secondary-nav">
+						<li><p>A free website template created exclusively for <a href="http://tympanus.net/codrops/"><em>Codrops</em></a></p></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</footer>	
 
 	<script>
 		// Today's date
 		var d = new Date();
 		document.getElementById("date").innerHTML = d.toDateString();
-
 		// prevent submitting form
 		$(".add-submit-btn").on("click", function(event) {
 			event.preventDefault();
@@ -223,25 +322,19 @@
 		  zoom: 11,
 	    mapTypeId: google.maps.MapTypeId.ROADMAP
 		};
-
 		function init() {
 		  map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
 		}
-
 		init();
-
 		$(document).ready(function() {
 		  $("#map-canvas").hide();
 		});
-
 		collapse = function(element) {
 		  $("#map-canvas").slideUp();
 		}
-
 		expand = function(element) {
 		  $("#map-canvas").slideDown(resizeMap);
 		}
-
 		function resizeMap() {
 		  var center2 = map.getCenter();
 		  google.maps.event.trigger(map, "resize"); // resize map
@@ -250,5 +343,21 @@
 	</script>
 	<script type="text/javascript" src="assets/javascript/oneday.js"></script>
 
+	<!-- END SECTION: Footer -->
+	<!-- JS CDNs -->
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script>
+	<script src="http://vjs.zencdn.net/5.4.6/video.min.js"></script>
+	<!-- jQuery local fallback -->
+	<script>
+	window.jQuery || document.write('<script src="js/min/jquery-1.11.2.min.js"><\/script>')
+	</script>
+	<!-- JS Locals -->
+	<script src="assets/javascript/min/bootstrap.min.js"></script>
+	<script src="assets/javascript/min/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+<!-- 	<script src="assets/javascript/min/retina.min.js"></script> -->
+	<script src="assets/javascript/min/jquery.waypoints.min.js"></script>
+	<script src="assets/javascript/min/flickity.pkgd.min.js"></script>
+	<script src="assets/javascript/min/scripts-min.js"></script>
 </body>
 </html>
