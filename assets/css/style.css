@@ -35,3 +35,18 @@
 		left: -280px !important;
 		min-width: 240px !important;
 }
+
+/* Signup page styles */
+.panel-primary
+{
+  border-color: #bce8f1;
+}
+.panel-primary>.panel-heading
+{
+  background:#bce8f1;
+
+}
+.panel-primary>.panel-body
+{
+  background-color: #EDEDED;
+}
