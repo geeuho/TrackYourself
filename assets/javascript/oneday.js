@@ -68,7 +68,9 @@ $(document).on('click', '.delete-row', removeRowFromTable);
 $('#save').on('click', function(event) {
 	event.preventDefault();
 
-	// Check if there is anything to save
+	saveData();
+
+	/*// Check if there is anything to save
 	var foodResults = $('#food-results').children('tr');
 
 	var exerciseResults = $('#exercise-results').children('tr');
@@ -106,7 +108,7 @@ $('#save').on('click', function(event) {
 		span.text('Exercise data saved.');
 		
 		$('#save-messages').append(span);
-	}
+	}*/
 });
 
 function populateFoodTable(mealTime, quantity, food) {
@@ -241,7 +243,8 @@ function removeRowFromTable() {
 	$(rowToRemove).remove();
 }
 
-function saveFoodRows(foodResults) {
+// The function below has been replaced by logic in the saveData function
+/*function saveFoodRows(foodResults) {
 	var todaysDate = moment($('#date').text(), 'ddd MMM DD YYYY');
 
 	var dataObj = {};
@@ -256,9 +259,10 @@ function saveFoodRows(foodResults) {
 			dataObj[$(foodResults.children()[i]).attr('value')] = $(foodResults.children()[i]).text();
 		}		
 	}
-}
+}*/
 
-function saveExerciseRows(exerciseResults) {
+// The function below has been replaced by logic in the saveData function
+/*function saveExerciseRows(exerciseResults) {
 	var todaysDate = moment($('#date').text(), 'ddd MMM DD YYYY');
 
 	var dataObj = {};
@@ -272,5 +276,98 @@ function saveExerciseRows(exerciseResults) {
 		} else {
 			dataObj[$(exerciseResults.children()[i]).attr('value')] = $(exerciseResults.children()[i]).text();
 		}		
+	}
+}*/
+
+function saveData() {
+	var foodResults = $('#food-results').children('tr');
+
+	var exerciseResults = $('#exercise-results').children('tr');
+
+	var dateValue = moment($('#date').text(), 'ddd MMM DD YYYY');
+
+	var dateArray = [];
+	
+	var headerObject = {
+		timeSubmitted: firebase.database.ServerValue.TIMESTAMP,
+	};
+
+	var bodyObject = {};
+
+	// Loop thru food data
+	for(var i=0; i<foodResults.children().length; i++) {
+
+		// Reaching the Delete row button signals the end of the row
+		if($(foodResults.children()[i]).text() !== 'Delete') {
+			// Add type to header object
+			headerObject['type'] = 'food';
+
+			// Check for the calories value, this will be added to the header object
+			if($(foodResults.children()[i]).attr('value') === 'calories') {
+
+				headerObject['calories'] = -1 * Number($(foodResults.children()[i]).text());
+
+			} else if($(foodResults.children()[i]).attr('value') === 'servingQty') {
+
+				bodyObject['servingQty'] = Number($(foodResults.children()[i]).text());
+
+			} else {
+
+				bodyObject[$(foodResults.children()[i]).attr('value')] = $(foodResults.children()[i]).text();
+
+			}
+		} else {
+			// Store body object in header object
+			headerObject['data'] = bodyObject
+			
+			// Push object to the date array
+			dateArray.push(headerObject);
+
+			// Reset objects in preparation for the next row
+			headerObject = {
+				timeSubmitted: firebase.database.ServerValue.TIMESTAMP,
+			};
+			
+			bodyObject = {};
+		}	
+	}
+
+	bodyObject = {};
+
+	// Loop thru exercise data
+	for(var i=0; i<exerciseResults.children().length; i++) {
+
+		// Reaching the Delete row button signals the end of the row
+		if($(exerciseResults.children()[i]).text() !== 'Delete') {
+			// Add type to header object
+			headerObject['type'] = 'exercise';
+
+			// Check for the calories value, this will be added to the header object
+			if($(exerciseResults.children()[i]).attr('value') === 'caloriesBurned') {
+				headerObject['calories'] = Number($(exerciseResults.children()[i]).text());
+			} else {
+				bodyObject[$(exerciseResults.children()[i]).attr('value')] = $(exerciseResults.children()[i]).text();
+			}
+		} else {
+			// Store body object in header object
+			headerObject['data'] = bodyObject
+			
+			// Push object to the date array
+			dateArray.push(headerObject);
+
+			// Reset objects in preparation for the next row
+			headerObject = {
+				timeSubmitted: firebase.database.ServerValue.TIMESTAMP,
+			};
+			
+			bodyObject = {};
+		}	
+	}
+
+	// Push the date array into firebase
+	if(dateArray.length > 0) {
+		database.ref('/' + dateValue.format('YYYY-MM-DD')).push().set(dateArray);
+	} else {
+		console.log("no data");
 	}
 }
