@@ -328,7 +328,7 @@ function saveData() {
 	var userId = "UID1234";
 
 	if(dateArray.length > 0) {
-		database.ref("/" + userId).child(dateValue.format("YYYY-MM-DD")).push().set(dateArray);
+		database.ref("/users/" + userId).child(dateValue.format("YYYY-MM-DD")).push().set(dateArray);
 	} else {
 		console.log("no data");
 	}
