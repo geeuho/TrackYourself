@@ -102,7 +102,7 @@
 		      <div class="panel-body">
 
 		      <form>
-		        <div class="col-md-10">
+		        <div class="col-md-11">
 			        <div class="form-group">
 			          <label for="meal-name-input">Meal</label>
 			          <select class="form-control" id="meal-time-input" type="text">
@@ -120,13 +120,15 @@
 			          <input class="form-control" id="quantity-input" type="text">
 			        </div>
 			      </div>	        
-		        <div class="col-md-7">
+		        <div class="col-md-8">
 			        <div class="form-group">
 			          <label for="food-input">Food</label>
 			          <input class="form-control" id="food-input" type="text">
 			        </div>
 			      </div>
-			      <div class="col-md-2">
+			      <div class="col-md-5">
+			      </div>
+			      <div class="col-md-6">
 		        	<button id="food-submit-btn" class="btn btn-primary add-submit-btn btn" type="submit">Add</button>
 		        </div>
 		      </form>
@@ -341,9 +343,11 @@
 		  $("#map-canvas").hide();
 		});
 		collapse = function(element) {
+			event.preventDefault();
 		  $("#map-canvas").slideUp();
 		}
 		expand = function(element) {
+			event.preventDefault();
 		  $("#map-canvas").slideDown(resizeMap);
 		}
 		function resizeMap() {
