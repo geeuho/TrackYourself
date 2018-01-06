@@ -265,7 +265,7 @@ function saveData() {
 			// Check for the calories value, this will be added to the header object
 			if($(foodResults.children()[i]).attr("value") === "calories") {
 
-				headerObject["calories"] = -1 * Number($(foodResults.children()[i]).text());
+				headerObject["calories"] = Number($(foodResults.children()[i]).text());
 
 			} else if($(foodResults.children()[i]).attr("value") === "servingQty") {
 
@@ -304,7 +304,7 @@ function saveData() {
 
 			// Check for the calories value, this will be added to the header object
 			if($(exerciseResults.children()[i]).attr("value") === "caloriesBurned") {
-				headerObject["calories"] = Number($(exerciseResults.children()[i]).text());
+				headerObject["calories"] = -1 * Number($(exerciseResults.children()[i]).text());
 			} else {
 				bodyObject[$(exerciseResults.children()[i]).attr("value")] = $(exerciseResults.children()[i]).text();
 			}
