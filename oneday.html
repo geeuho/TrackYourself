@@ -14,6 +14,10 @@
   <!-- jQuery -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
+  <!-- jQuery UI -->
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+  	crossorigin="anonymous"></script>
+
   <!-- Bootstrap-->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 
@@ -29,6 +33,15 @@
 	<link rel="stylesheet" href="assets/css/reset.css">
 	<link rel="stylesheet" href="assets/css/styles.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+	<script>  	
+		$(function() {
+			$( "#start-date" ).datepicker({
+				minDate: '-10',
+				maxDate: '0'
+			});
+  	});
+	</script>
 </head>
 <body>
 	<div class="container-fluid">
@@ -71,7 +84,7 @@
 		<div class="jumbotron">
 			<h1 class="text-center oneday-hero">Daily Calorie Checker</h1>
 			<h3 class="text-center oneday-hero">Track your calories. Track your health
-				<br><br><span id="date" class="oneday-hero">Today's Date</span>
+				<br><br>Pick Date <input type="text" id="start-date"/>
 			</h3>
 		</div> <!-- end jumbotron -->
 	</header>
