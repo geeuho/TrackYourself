@@ -14,6 +14,10 @@
   <!-- jQuery -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
+  <!-- jQuery UI -->
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+  	crossorigin="anonymous"></script>
+
   <!-- Bootstrap-->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 
@@ -29,6 +33,15 @@
 	<link rel="stylesheet" href="assets/css/reset.css">
 	<link rel="stylesheet" href="assets/css/styles.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+	<script>  	
+		$(function() {
+			$( "#start-date" ).datepicker({
+				minDate: '-10',
+				maxDate: '0'
+			});
+  	});
+	</script>
 </head>
 <body>
 	<div class="container-fluid">
@@ -45,7 +58,7 @@
 					</nav>
 					<div class="secondary-nav-wrapper">
 						<ul class="secondary-nav">
-							<li class="subscribe"><a href="https://xtiane.github.io/TrackYourself/">Sign Out</a></li>
+							<li class="subscribe signout"><a href="https://xtiane.github.io/TrackYourself/">Sign Out</a></li>
 							<li class="search"><a href="#search" class="show-search"><i class="fa fa-search"></i></a></li>
 						</ul>
 					</div>
@@ -71,16 +84,16 @@
 		<div class="jumbotron">
 			<h1 class="text-center oneday-hero">Daily Calorie Checker</h1>
 			<h3 class="text-center oneday-hero">Track your calories. Track your health
-				<br><br><span id="date" class="oneday-hero">Today's Date</span>
+				<br><br>Pick Date <input type="text" id="start-date"/>
 			</h3>
 		</div> <!-- end jumbotron -->
 	</header>
 
-	<!-- Food Section -->
+	<!-- Add Inputs Section -->
 	<section id="food-section">
 		<div class="container">
 			<div class="row">
-				<div class="col-lg-12">
+				<div class="col-lg-5">
 					<!-- Add Food  -->
 		      <div class="panel panel-default">
 		        <div class="panel-heading">
@@ -89,7 +102,7 @@
 		      <div class="panel-body">
 
 		      <form>
-		        <div class="col-md-2">
+		        <div class="col-md-11">
 			        <div class="form-group">
 			          <label for="meal-name-input">Meal</label>
 			          <select class="form-control" id="meal-time-input" type="text">
@@ -101,32 +114,112 @@
 			          </select>
 			        </div>
 		        </div>
-			      <div class="col-md-2">
+			      <div class="col-md-3">
 			        <div class="form-group">
 			          <label for="quantity-input">Quantity</label>
 			          <input class="form-control" id="quantity-input" type="text">
 			        </div>
 			      </div>	        
-		        <div class="col-md-7">
+		        <div class="col-md-8">
 			        <div class="form-group">
 			          <label for="food-input">Food</label>
 			          <input class="form-control" id="food-input" type="text">
 			        </div>
 			      </div>
-			      <div class="col-md-1">
-		        	<button id="food-submit-btn" class="btn btn-primary add-submit-btn btn" type="submit">Submit</button>
+			      <div class="col-md-5">
+			      </div>
+			      <div class="col-md-6">
+		        	<button id="food-submit-btn" class="btn btn-primary add-submit-btn btn" type="submit">Add</button>
 		        </div>
 		      </form>
-	 	    </div> <!-- end col-lg-12 -->
+	 	    </div> <!-- end col-lg-6 -->
 		  </div> <!-- end row -->
-		</div> <!-- end Food Input container -->
+		</div> <!-- end Input container -->
+				<!-- Exercise Section -->
+		<section id="exercise-section">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-7">
+						<!-- Add Exercise  -->
+			      <div class="panel panel-default">
+			        <div class="panel-heading">
+			          <h3 class="panel-title"><strong>Add Exercise</strong></h3>
+			        </div>
+			      <div class="panel-body">
+
+			      <!-- Entry Form -->
+			      <form>
+			        <div class="col-md-2">
+				        <div class="form-group">
+				          <label for="exercise-duration-input">Minutes</label>
+				          <input class="form-control" id="exercise-duration-input" type="text">
+				        </div>
+				      </div>	
+							<div class="col-md-3">
+				        <div class="form-group">
+				          <label for="exercise-dropdown-input">Exercise</label>
+				          <select class="form-control" id="exercise-dropdown-input" type="text">
+				          	<option></option>
+				          	<option>Walking</option>
+				          	<option>Running</option>
+				          	<option>Bicycling</option>
+				          </select>
+				        </div>
+			        </div>
+				      <div class="col-md-1">
+				        <div class="form-group">
+				          <label for="exercise-start-input">or</label>
+				        </div>
+				      </div>	        
+			        <div class="col-md-6">
+				        <div class="form-group">
+				          <label for="exercise-string-input">Exercise</label>
+				          <input class="form-control" id="exercise-string-input" type="text">
+				        </div>
+				      </div>
+
+				      <!-- new row -->
+				      <div class="col-md-6">
+				        <div class="form-group">
+				          <label for="quantity-input">
+				          	<a href="#" onclick="expand();">ShowMap </a>
+				          	<a href="#" onclick="collapse();"> | HideMap</a>
+				          </label>
+				          <div id="map-canvas"></div>
+				        </div>
+				      </div>
+				      <div class="col-md-3">
+				        <div class="form-group">
+				          <label for="quantity-input">Start Location</label>
+				          <input class="form-control" id="exercise-start-input" type="text">
+				        </div>
+				      </div>	        
+			        <div class="col-md-3">
+				        <div class="form-group">
+				          <label for="food-input">End Location</label>
+				          <input class="form-control" id="exercise-end-input" type="text">
+				        </div>
+				      </div>
+							<hr>
+							<div class="col-md-5">
+							</div>
+				      <div class="col-md-7">
+			        	<button id="exercise-submit-btn" class="btn btn-primary add-submit-btn btn" type="submit">Add</button>
+			        </div>
+			      </form>
+			    </div> <!-- end col-lg-12 -->
+			  </div> <!-- end row -->
+			</div> <!-- end Exercise Input container -->
+		</section>
 	</section>
+	<br>
+
 
 
 <!-- Today's Meals Input -->
 	<div class="container">
 		<div class="row">
-			<div class="col-lg-12">
+			<div class="col-lg-6">
 			  <div class="panel panel-default">
 			  	<div class="panel-heading">
 			    	<h3 class="panel-title"><strong>Today's Meals</strong></h3>
@@ -147,87 +240,8 @@
 						</table>
 					</div>
 				</div>
-			</div> <!-- end col-lg-12 -->
-		</div><!--  end row -->
-	</div> <!-- end Food Output container -->
-
-	<!-- Exercise Section -->
-	<section id="exercise-section">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12">
-					<!-- Add Exercise  -->
-		      <div class="panel panel-default">
-		        <div class="panel-heading">
-		          <h3 class="panel-title"><strong>Add Exercise</strong></h3>
-		        </div>
-		      <div class="panel-body">
-
-		      <!-- Entry Form -->
-		      <form>
-		        <div class="col-md-2">
-			        <div class="form-group">
-			          <label for="exercise-duration-input">Duration (min)</label>
-			          <input class="form-control" id="exercise-duration-input" type="text">
-			        </div>
-			      </div>	
-						<div class="col-md-2">
-			        <div class="form-group">
-			          <label for="exercise-dropdown-input">Exercise</label>
-			          <select class="form-control" id="exercise-dropdown-input" type="text">
-			          	<option></option>
-			          	<option>Walking</option>
-			          	<option>Running</option>
-			          	<option>Bicycling</option>
-			          </select>
-			        </div>
-		        </div>
-			      <div class="col-md-1">
-			        <div class="form-group">
-			          <label for="exercise-start-input">or</label>
-			        </div>
-			      </div>	        
-		        <div class="col-md-7">
-			        <div class="form-group">
-			          <label for="exercise-string-input">Exercise</label>
-			          <input class="form-control" id="exercise-string-input" type="text">
-			        </div>
-			      </div>
-
-			      <!-- new row -->
-			      <div class="col-md-5">
-			        <div class="form-group">
-			          <label for="quantity-input">
-			          	<a href="#" onclick="expand();">ShowMap </a>
-			          	<a href="#" onclick="collapse();"> | HideMap</a>
-			          </label>
-			          <div id="map-canvas"></div>
-			        </div>
-			      </div>
-			      <div class="col-md-3">
-			        <div class="form-group">
-			          <label for="quantity-input">Start Location</label>
-			          <input class="form-control" id="exercise-start-input" type="text">
-			        </div>
-			      </div>	        
-		        <div class="col-md-3">
-			        <div class="form-group">
-			          <label for="food-input">End Location</label>
-			          <input class="form-control" id="exercise-end-input" type="text">
-			        </div>
-			      </div>
-			      <div class="col-md-1">
-		        	<button id="exercise-submit-btn" class="btn btn-primary add-submit-btn btn" type="submit">Submit</button>
-		        </div>
-		      </form>
-		    </div> <!-- end col-lg-12 -->
-		  </div> <!-- end row -->
-		</div> <!-- end Exercise Input container -->
-	</section>
-      
-	<div class="container">
-		<div class="row">
-			<div class="col-lg-12">
+			</div> <!-- end col-lg-6 -->
+			<div class="col-lg-6">
 			  <div class="panel panel-default">
 			  	<div class="panel-heading">
 			    	<h3 class="panel-title"><strong>Today's Exercises</strong></h3>
@@ -292,9 +306,6 @@
 							<li><a href="#" class="share-linkedin"><i class="fa fa-linkedin"></i></a></li>
 						</ul>
 					</div>
-					<ul class="footer-secondary-nav">
-						<li><p>A free website template created exclusively for <a href="http://tympanus.net/codrops/"><em>Codrops</em></a></p></li>
-					</ul>
 				</div>
 			</div>
 		</div>
@@ -332,9 +343,11 @@
 		  $("#map-canvas").hide();
 		});
 		collapse = function(element) {
+			event.preventDefault();
 		  $("#map-canvas").slideUp();
 		}
 		expand = function(element) {
+			event.preventDefault();
 		  $("#map-canvas").slideDown(resizeMap);
 		}
 		function resizeMap() {
