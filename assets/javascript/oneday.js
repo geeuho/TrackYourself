@@ -206,10 +206,18 @@ function removeRowFromTable() {
 // The function below has been replaced by logic in the saveData function
 /*function saveFoodRows(foodResults) {
 	var todaysDate = moment($("#date").text(), "ddd MMM DD YYYY");
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/master
 	var dataObj = {};
 	for(var i=0; i<foodResults.children().length; i++) {
 		if($(foodResults.children()[i]).text() === "Delete") {
 			database.ref("/" + todaysDate.format("x") + "/food").push().set(dataObj);
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/master
 			// Create a new object for the next set of data
 			dataObj = {};
 		} else {
@@ -217,6 +225,13 @@ function removeRowFromTable() {
 		}		
 	}
 }*/
+<<<<<<< HEAD
+=======
+
+// The function below has been replaced by logic in the saveData function
+/*function saveExerciseRows(exerciseResults) {
+	var todaysDate = moment($("#date").text(), "ddd MMM DD YYYY");
+>>>>>>> origin/master
 
 // The function below has been replaced by logic in the saveData function
 /*function saveExerciseRows(exerciseResults) {
@@ -225,6 +240,10 @@ function removeRowFromTable() {
 	for(var i=0; i<exerciseResults.children().length; i++) {
 		if($(exerciseResults.children()[i]).text() === "Delete") {
 			database.ref("/" + todaysDate.format("x") + "/exercise").push().set(dataObj);
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/master
 			// Create a new object for the next set of data
 			dataObj = {};
 		} else {

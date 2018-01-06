@@ -36,6 +36,7 @@
 		min-width: 240px !important;
 }
 
+<<<<<<< HEAD
 /*Datepicker*/
 .ui-datepicker {
 	background: #fff; /* Old browsers */
@@ -83,3 +84,19 @@
           border-radius: 0 !important;
 }
 /*End round border radius*/
+=======
+/* Signup page styles */
+.panel-primary
+{
+  border-color: #bce8f1;
+}
+.panel-primary>.panel-heading
+{
+  background:#bce8f1;
+
+}
+.panel-primary>.panel-body
+{
+  background-color: #EDEDED;
+}
+>>>>>>> origin/master
