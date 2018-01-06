@@ -80,7 +80,6 @@ firebase.initializeApp(config);
 
 		}
 
-
 	});
 
 
