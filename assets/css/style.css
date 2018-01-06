@@ -3,7 +3,7 @@
 /*Google Map API*/
 #map-canvas {
 	height: 400px;
-	width: 100%;
+	width: 90%;
 	/*overflow:hidden;
 	z-index:-999;*/
 }
