@@ -33,15 +33,6 @@
 	<link rel="stylesheet" href="assets/css/reset.css">
 	<link rel="stylesheet" href="assets/css/styles.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-
-	<script>  	
-		$(function() {
-			$( "#start-date" ).datepicker({
-				minDate: '-10',
-				maxDate: '0'
-			});
-  	});
-	</script>
 </head>
 <body>
 	<!-- navbar -->
@@ -105,7 +96,8 @@
 
 		      <form>
 		        <div class="col-md-11">
-			        <div class="form-group">
+			        <div class="form-group" id="add-food-meal">
+			        	<br>
 			          <label for="meal-name-input">Meal</label>
 			          <select class="form-control" id="meal-time-input" type="text">
 			          	<option>Breakfast</option>
@@ -181,7 +173,7 @@
 				      </div>
 
 				      <!-- new row -->
-				      <div class="col-md-6">
+<!-- 				      <div class="col-md-6">
 				        <div class="form-group">
 				          <label for="quantity-input">
 				          	<a href="#" onclick="expand();">ShowMap </a>
@@ -189,14 +181,14 @@
 				          </label>
 				          <div id="map-canvas"></div>
 				        </div>
-				      </div>
-				      <div class="col-md-3">
+				      </div> -->
+				      <div class="col-md-6">
 				        <div class="form-group">
 				          <label for="quantity-input">Start Location</label>
 				          <input class="form-control" id="exercise-start-input" type="text">
 				        </div>
 				      </div>	        
-			        <div class="col-md-3">
+			        <div class="col-md-6">
 				        <div class="form-group">
 				          <label for="food-input">End Location</label>
 				          <input class="form-control" id="exercise-end-input" type="text">
@@ -314,9 +306,6 @@
 	</footer>	
 
 	<script>
-		// Today's date
-		var d = new Date();
-		document.getElementById("date").innerHTML = d.toDateString();
 		// prevent submitting form
 		$(".add-submit-btn").on("click", function(event) {
 			event.preventDefault();
