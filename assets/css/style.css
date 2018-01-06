@@ -1,12 +1,12 @@
 /*oneday.html*/
 
 /*Google Map API*/
-#map-canvas {
+/*#map-canvas {
 	height: 400px;
-	width: 90%;
+	width: 90%;*/
 	/*overflow:hidden;
 	z-index:-999;*/
-}
+/*}*/
 
 #food-submit-btn, #exercise-submit-btn {
 	margin-top: 14px;
@@ -83,7 +83,7 @@
           border-radius: 0 !important;
 }
 /*End round border radius*/
-=======
+
 /* Signup page styles */
 .panel-primary
 {
@@ -98,4 +98,9 @@
 {
   background-color: #EDEDED;
 }
->>>>>>> origin/master
+
+/*oneday.html add food table*/
+#add-food-meal {
+	padding-top: 5px;
+}
+/*end oneday.html add food table*/
