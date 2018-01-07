@@ -1,93 +1,151 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>History Page</title>
-
-<br>
-
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>One Day Log</title>
+	<meta name="description" content="An easy way to track your calories gained and burned">
+	<meta name="keywords" content="free health tracker, new year resolutions, fitness, exercise" />
+	<meta name="author" content="" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- CSS -->
+	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
 
   <!-- jQuery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-	<!-- jQuery UI -->
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+  <!-- Bootstrap-->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 
-  <!-- Styles -->
-<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/4.8.0/firebase.js"></script>
 
-<script>
-		$(function() {
-			$( "#start-date-input" ).datepicker();
-			$( "#end-date-input" ).datepicker();
-  	} );
-	</script>
+  <!-- Moment JS -->
+	<script type="text/javascript" src="assets/javascript/moment.min.js"></script>
+	<link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="assets/css/normalize.min.css">
+	<link rel="stylesheet" href="assets/css/animate.min.css">
+	<link rel="stylesheet" href="assets/css/flickity.min.css">
+	<link rel="stylesheet" href="assets/css/reset.css">
+	<link rel="stylesheet" href="assets/css/styles.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+	<!-- Calendar dropdown  -->
+	<script>
+			$(function() {
+				$( "#start-date-input" ).datepicker();
+				$( "#end-date-input" ).datepicker();
+	  	} );
+		</script>
 
 </head>
 <body>
 
-  <section id="date-section">
+		<!-- Nav -->
+		<div class="container-fluid">
+		<div class="row">
+			<div class="header-nav-wrapper">
+				<div class="logo">
+					<a href="/index.html"><img src="assets/img/synthetica-logo.png" alt="Synthetica Freebie"></a>
+				</div>
+				<div class="primary-nav-wrapper">
+					<nav>
+						<ul class="primary-nav">
+							<li><a href="#">History</a></li>
+						</ul>
+					</nav>
+					<div class="secondary-nav-wrapper">
+						<ul class="secondary-nav">
+							<li class="subscribe"><a href="#get-started">Sign Out</a></li>
+							<li class="search"><a href="#search" class="show-search"><i class="fa fa-search"></i></a></li>
+						</ul>
+					</div>
+					<div class="search-wrapper">
+						<ul class="search">
+							<li>
+								<input type="text" id="search-input" placeholder="Start typing then hit enter to search">
+							</li>
+							<li>
+								<a href="#" class="hide-search"><i class="fa fa-close"></i></a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="navicon">
+					<a class="nav-toggle" href="#"><span></span></a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end Nav -->
+
+	<br>
+	<!-- Your History start/end date -->
+	<section id="date-section">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12">
 					<!-- Add Food  -->
-		      <div class="panel panel-default">
-		        <div class="panel-heading">
-		          <h3 class="panel-title"><strong>Your History</strong></h3>
-		        </div>
-		      <div class="panel-body">
-		      <form>
-		        <div class="col-md-2">
-			        <div class="form-group">
-			          <label for="start-date-input">Start Date</label>
-			          <input class="form-control" id="start-date-input" type="text">
-			        </div>
-		        </div>
-			      <div class="col-md-2">
-			        <div class="form-group">
-			          <label for="end-date-input">End Date</label>
-			          <input class="form-control" id="end-date-input" type="text">
-			        </div>
-			      </div>
-			      <div class="col-md-1">
-		        	<button id="submit-btn" class="btn btn-primary add-submit-btn btn" type="submit">Submit</button>
-		        </div>
-		      </form>
-	 	    </div> <!-- end col-lg-12 -->
-		  </div> <!-- end row -->
-		</div> <!-- end Food Input container -->
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title"><strong>Date Range</strong></h3>
+						</div>
+					<div class="panel-body">
+					<form>
+						<div class="col-md-2">
+							<div class="form-group">
+								<label for="start-date-input">Start Date</label>
+								<input class="form-control" id="start-date-input" type="text">
+							</div>
+						</div>
+						<div class="col-md-2">
+							<div class="form-group">
+								<label for="end-date-input">End Date</label>
+								<input class="form-control" id="end-date-input" type="text">
+							</div>
+						</div>
+						<div class="col-md-1">
+							<button id="submit-btn" class="btn btn-primary add-submit-btn btn" type="submit">Submit</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
 	</section>
+	<!-- end History -->
 
- <br>
+	<br>
 
- <div class="row">
-   <div class="col-md-1"></div>
-      <div class="col-md-10">
-          <canvas id="myChart"></canvas>
-      </div>
-    <div class="col-md-1"></div>
-  </div>
+	<!-- Chart -->
+<div class="row">
+ <div class="col-md-1"></div>
+		<div class="col-md-10">
+				<canvas id="myChart"></canvas>
+		</div>
+	<div class="col-md-1"></div>
+</div>
+	<!-- end Chart -->
+	<br>
 
-  <br>
-
-  <div class="container">
+	<!-- previous history -->
+	<div class="container">
 		<div class="row">
 			<div class="col-lg-12">
 			  <div class="panel panel-default">
 			  	<div class="panel-heading">
-			    	<h3 class="panel-title"><strong>Diet</strong></h3>
+            <tr>
+              <th>History</th>
+            </tr>
+			    	<!-- <h3 class="panel-title"><strong>Diet</strong></h3> -->
 				  </div>
 				  <div class="panel-body">
 				  	<table class="table table-hover" id='diet-table-output'>
 				      <thead>
 				        <tr>
-									<th>Date</th>
+									<th>Type</th>
 									<th>Meal</th>
-									<th>Food</th>
-									<th>Quanity</th>
-									<th>Calories gained</th>
+									<th>Exercise</th>
+									<th>Calories</th>
 								</tr>
 							</thead>
 							<tbody id="diet-results">
@@ -95,43 +153,119 @@
 						</table>
 					</div>
 				</div>
-			</div> <!-- end col-lg-12 -->
-		</div><!--  end row -->
-	</div> <!-- end container -->
-</div>
+			</div>
+		</div>
+	</div>
+	<!-- end previous history -->
 
-<br>
+	<section class="get-started has-padding text-center">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12 wp4">
+					<!-- <a href="#" id="save" class="btn secondary-white">Save</a> -->
+					<div id="save-messages"></div>
+				</div>
+			</div>
+		</div>
+	</section>
 
-<div class="container">
-  <div class="row">
-    <div class="col-lg-12">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h3 class="panel-title"><strong>Exercise</strong></h3>
-        </div>
-        <div class="panel-body">
-          <table class="table table-hover" id='exercise-table-output'>
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th>Time</th>
-                <th>Type</th>
-                <th>Distance (miles)</th>
-                <th>Calories burned</th>
-              </tr>
-            </thead>
-            <tbody id="exercise-results">
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div> <!-- end col-lg-12 -->
-  </div><!--  end row -->
- </div> <!-- end container -->
-</div>
+	<!-- END SECTION: Get started -->
+	<!-- SECTION: Footer -->
+	<footer class="has-padding footer-bg">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4 footer-branding">
+					<img class="footer-branding-logo" src="assets/img/synthetica-logo.png" alt="Synthetica freebie html5 css3 template logo">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12 footer-nav">
+					<ul class="footer-primary-nav">
+						<li><a href="#intro">Intro</a></li>
+						<li><a href="#team">The Crew</a></li>
+						<li><a href="articles#">How to Use</a></li>
+						<li><a href="#freebies">Freebies</a></li>
+						<li><a href="#">Contact Us</a></li>
+					</ul>
+					<ul class="footer-share">
+						<li><a href="http://tympanus.net/codrops/licensing/">Licence</a></li>
+						<li><a href="#" class="share-trigger"><i class="fa fa-share"></i>Share</a></li>
+					</ul>
+					<div class="share-dropdown">
+						<ul>
+							<li><a href="#" class="share-twitter"><i class="fa fa-twitter"></i></a></li>
+							<li><a href="#" class="share-facebook"><i class="fa fa-facebook"></i></a></li>
+							<li><a href="#" class="share-linkedin"><i class="fa fa-linkedin"></i></a></li>
+						</ul>
+					</div>
+					<ul class="footer-secondary-nav">
+						<li><p>A free website template created exclusively for <a href="http://tympanus.net/codrops/"><em>Codrops</em></a></p></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</footer>
 
+	<script>
+		// Today's date
+		var d = new Date();
+		document.getElementById("date").innerHTML = d.toDateString();
+		// prevent submitting form
+		$(".add-submit-btn").on("click", function(event) {
+			event.preventDefault();
+		})
+	</script>
 
+  <!-- Jquery UI -->
+ 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 
+	<!-- Google Map API-->
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD_7P47w5-ZHqh-PtTcXj1KEq8DwutQ4GA"></script>
+
+	<!-- Google Map Expand/Hide in Input Table -->
+	<script>
+		var map;
+		var mapOptions = {
+		  center: new google.maps.LatLng(54.89832877373636, -2.9350662231445312),
+		  zoom: 11,
+	    mapTypeId: google.maps.MapTypeId.ROADMAP
+		};
+		function init() {
+		  map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+		}
+		init();
+		$(document).ready(function() {
+		  $("#map-canvas").hide();
+		});
+		collapse = function(element) {
+		  $("#map-canvas").slideUp();
+		}
+		expand = function(element) {
+		  $("#map-canvas").slideDown(resizeMap);
+		}
+		function resizeMap() {
+		  var center2 = map.getCenter();
+		  google.maps.event.trigger(map, "resize"); // resize map
+	    map.setCenter(center2);
+		}
+	</script>
+	<script type="text/javascript" src="assets/javascript/oneday.js"></script>
+
+	<!-- END SECTION: Footer -->
+	<!-- JS CDNs -->
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script>
+	<script src="http://vjs.zencdn.net/5.4.6/video.min.js"></script>
+	<!-- jQuery local fallback -->
+	<script>
+	window.jQuery || document.write('<script src="js/min/jquery-1.11.2.min.js"><\/script>')
+	</script>
+	<!-- JS Locals -->
+	<script src="assets/javascript/min/bootstrap.min.js"></script>
+	<script src="assets/javascript/min/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+<!-- 	<script src="assets/javascript/min/retina.min.js"></script> -->
+	<script src="assets/javascript/min/jquery.waypoints.min.js"></script>
+	<script src="assets/javascript/min/flickity.pkgd.min.js"></script>
+	<script src="assets/javascript/min/scripts-min.js"></script>
 </body>
-
 </html>
