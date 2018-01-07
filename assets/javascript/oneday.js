@@ -17,15 +17,40 @@ firebase.initializeApp(config);
 var database = firebase.database();
 
 // Listeners
-$("#food-submit-btn").on("click", function(){
-	// Clear save messages
-	$("#save-messages").empty();
+$("#start-date").on("click", function(){
+	$(this).removeClass("red-border");
+});
 
+$("#exercise-dropdown-input").on("change", function() {
+	// Remove red-border from exercise input
+	$("#exercise-string-input").removeClass("red-border");
+
+	// Disable or enable the exercise text area based on drop down selection
+	if($("#exercise-dropdown-input option:selected").text().length === 0) {
+		$("#exercise-string-input").removeAttr("disabled");
+
+		$("#exercise-start-input").attr("disabled", "disabled");
+		$("#exercise-end-input").attr("disabled", "disabled");
+	} else {
+		$("#exercise-string-input").attr("disabled", "disabled");
+
+		$("#exercise-start-input").removeAttr("disabled");
+		$("#exercise-end-input").removeAttr("disabled");
+	}
+});
+
+$("#food-submit-btn").on("click", function(){
 	// Get meal time
 	var mealTime = $("#meal-time-input option:selected").text();
 	var quantity = $("#quantity-input").val().trim();
 	var food = $("#food-input").val().trim();
 
+	// Validate input
+	if(!validateFoodEntry()) {
+		return;
+	}
+
+	// Populate the food table
 	populateFoodTable(mealTime, quantity, food);
 
 	// Clear inputs
@@ -34,14 +59,16 @@ $("#food-submit-btn").on("click", function(){
 });
 
 $("#exercise-submit-btn").on("click", function(){
-	// Clear save messages
-	$("#save-messages").empty();
-
 	var durationMins = $("#exercise-duration-input").val().trim();
 	var exercise = $("#exercise-dropdown-input option:selected").text();
 
 	if(exercise.length === 0) {
 		exercise = $("#exercise-string-input").val().trim();
+	}
+
+	// Validate input
+	if(!validateExerciseEntry()) {
+		return;
 	}
 
 	// Appending the word "minutes" to duration input in order
@@ -55,9 +82,10 @@ $("#exercise-submit-btn").on("click", function(){
 
 	if($("#exercise-string-input").val().length > 0) {
 		$("#exercise-string-input").val("");
-	} else {
-		$($("#exercise-dropdown-input").children()[0]).prop("selected", true);
-	}
+	} 
+	// else {
+	// 	$($("#exercise-dropdown-input").children()[0]).prop("selected", true);
+	// }
 
 	$("#exercise-start-input").val("");
 	$("#exercise-end-input").val("");
@@ -65,11 +93,26 @@ $("#exercise-submit-btn").on("click", function(){
 
 $(document).on("click", ".delete-row", removeRowFromTable);
 
+$(document).on("click", ".form-control", updateFormControl);
+
 $("#save").on("click", function(event) {
 	event.preventDefault();
 
 	saveData();
 });
+
+$("#clear-data").on("click", function(event){
+	event.preventDefault();
+
+	$("#food-results").empty();
+	$("#exercise-results").empty();
+});
+
+// End Listeners
+
+function updateFormControl() {
+	$(this).removeClass("red-border");
+}
 
 function populateFoodTable(mealTime, quantity, food) {
 	var userInput = mealTime + " " + quantity + " " + food;
@@ -208,7 +251,7 @@ function saveData() {
 
 	var exerciseResults = $("#exercise-results").children("tr");
 
-	var dateValue = moment($("#date").text(), "ddd MMM DD YYYY");
+	var dateValue = moment($("#start-date").val().trim(), "MM/DD/YYYY");
 
 	var dateArray = [];
 	
@@ -293,8 +336,11 @@ function saveData() {
 
 	if(dateArray.length > 0) {
 		database.ref("/users/" + userId).child(dateValue.format("YYYY-MM-DD")).push().set(dateArray);
+
+		// Notify user
+		createNotifyMessage("Save Data", "glyphicon glyphicon-warning-sign", "info", "Food and exercise data saved for " + dateValue.format("MM/DD/YYYY"));
 	} else {
-		console.log("no data");
+		createNotifyMessage("Save Data", "glyphicon glyphicon-warning-sign", "info", "No data to save.", "top");
 	}
 }
 
@@ -305,6 +351,119 @@ $(function() {
 		maxDate: '0'
 	});
  });
+
+// Validate food input
+function validateFoodEntry(){
+	var quantity = $("#quantity-input").val().trim();
+	var food = $("#food-input").val().trim();
+
+	var date = $("#start-date").val().trim();
+
+	// Validate input
+	if(date.length === 0) {
+		createNotifyMessage("Missing Value", "glyphicon glyphicon-warning-sign", "danger", "Please select a valid date.", "top");
+
+		$("#start-date").addClass("red-border");
+
+		return false;
+	}
+
+	if(quantity.length === 0) {
+		createNotifyMessage("Missing Value", "glyphicon glyphicon-warning-sign", "danger", "Food quantity value must be specified.", "top");
+
+		$("#quantity-input").addClass("red-border");
+
+		return false;
+	}
+
+	if(food.length === 0) {
+		createNotifyMessage("Missing Value", "glyphicon glyphicon-warning-sign", "danger", "Food value must be specified.", "top");
+
+		$("#food-input").addClass("red-border");
+
+		return false;
+	}
+
+	return true;
+}
+
+// Validate exercise input
+function validateExerciseEntry() {
+	var date = $("#start-date").val().trim();
+	var durationMins = $("#exercise-duration-input").val().trim();
+	var exercise = $("#exercise-string-input").val().trim();
+	var exerciseDropDownValue = $("#exercise-dropdown-input option:selected").text();
+
+	var startLocation = $("#exercise-start-input").val().trim();
+	var endLocation = $("#exercise-end-input").val().trim();
+
+	// Validate input
+	if(date.length === 0) {
+		createNotifyMessage("Missing Value", "glyphicon glyphicon-warning-sign", "danger", "Please select a valid date.", "top");
+
+		$("#start-date").addClass("red-border");
+
+		return false;
+	}
+
+	if(durationMins.length === 0) {
+		createNotifyMessage("Missing Value", "glyphicon glyphicon-warning-sign", "danger", "Exercise minutes value must be specified.", "top");
+
+		$("#exercise-duration-input").addClass("red-border");
+
+		return false;
+	}
+
+	if(exercise.length === 0 && exerciseDropDownValue.length == 0) {
+		createNotifyMessage("Missing Value", "glyphicon glyphicon-warning-sign", "danger", "Exercise value must be specified.", "top");
+
+		$("#exercise-string-input").addClass("red-border");
+
+		return false;
+	}
+
+	if(exerciseDropDownValue.length > 0) {
+		if(startLocation.length === 0) {
+			createNotifyMessage("Missing Value", "glyphicon glyphicon-warning-sign", "danger", "Exercise start location value must be specified.", "top");
+
+			$("#exercise-start-input").addClass("red-border");
+
+			return false;
+		}
+
+		if(endLocation.length === 0) {
+			createNotifyMessage("Missing Value", "glyphicon glyphicon-warning-sign", "danger", "Exercise end location value must be specified.", "top");
+
+			$("#exercise-end-input").addClass("red-border");
+
+			return false;
+		}
+	}
+
+	return true;
+}
+
+// Notify messages
+function createNotifyMessage(title, glyphicon, type, message, from) {
+	$.notify({
+		title: "<strong>" + title + "</strong> - ",
+		icon: glyphicon,
+		message: message,
+	},{
+		type: type,
+		animate: {
+  	enter: "animated fadeInDown",
+  	exit: "animated fadeOutRight"
+	},
+		placement: {
+  		from: from,
+  		align: "left"
+	},
+		offset: 20,
+		spacing: 10,
+		z_index: 1031,
+	});
+}
 
 
 

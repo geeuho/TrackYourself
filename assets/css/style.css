@@ -104,3 +104,8 @@
 	padding-top: 5px;
 }
 /*end oneday.html add food table*/
+
+#start-date.red-border, #exercise-start-input.red-border, #exercise-end-input.red-border, #exercise-string-input.red-border, #exercise-duration-input.red-border, 
+	#food-input.red-border, #quantity-input.red-border {
+	border: 2px solid red;
+}
