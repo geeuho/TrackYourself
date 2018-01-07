@@ -8,11 +8,12 @@
 	<meta name="keywords" content="free health tracker, new year resolutions, fitness, exercise" />
 	<meta name="author" content="" />
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<!-- CSS -->
-	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+	
 
   <!-- jQuery -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script>
 
   <!-- jQuery UI -->
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
@@ -26,6 +27,15 @@
 
   <!-- Moment JS -->
 	<script type="text/javascript" src="./assets/javascript/moment.min.js"></script>
+
+	<!-- Bootstrap Notify -->
+	<link rel="stylesheet" href="assets/css/animate.css">
+
+	<!-- Custom CSS -->
+	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+
+	<script type="text/javascript" src="assets/javascript/bootstrap-notify.min.js"></script>
+
 	<link rel="stylesheet" href="assets/css/bootstrap.min.css" />
 	<link rel="stylesheet" href="assets/css/normalize.min.css">
 	<link rel="stylesheet" href="assets/css/animate.min.css">
@@ -185,13 +195,13 @@
 				      <div class="col-md-6">
 				        <div class="form-group">
 				          <label for="quantity-input">Start Location</label>
-				          <input class="form-control" id="exercise-start-input" type="text">
+				          <input class="form-control" id="exercise-start-input" type="text" disabled="disabled">
 				        </div>
 				      </div>	        
 			        <div class="col-md-6">
 				        <div class="form-group">
 				          <label for="food-input">End Location</label>
-				          <input class="form-control" id="exercise-end-input" type="text">
+				          <input class="form-control" id="exercise-end-input" type="text" disabled="disabled">
 				        </div>
 				      </div>
 							<hr>
@@ -241,7 +251,7 @@
 			    	<h3 class="panel-title"><strong>Today's Exercises</strong></h3>
 				  </div>
 				  <div class="panel-body">
-				  	<table class="table table-hover" id='meal-table-output'>
+				  	<table class="table table-hover" id="meal-table-output">
 				      <thead>
 				        <tr>
 									<th>Time</th>
@@ -265,8 +275,8 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12 wp4">
+					<a href="#" id="clear-data" class="btn secondary-white">Clear Data</a>
 					<a href="#" id="save" class="btn secondary-white">Save</a>
-					<div id="save-messages"></div>
 				</div>
 			</div>
 		</div>
@@ -312,56 +322,28 @@
 		})
 	</script>
 
-  <!-- Jquery UI -->
- 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-
 	<!-- Google Map API-->
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD_7P47w5-ZHqh-PtTcXj1KEq8DwutQ4GA"></script>
 
-	<!-- Google Map Expand/Hide in Input Table -->
-	<script>
-		var map;
-		var mapOptions = {
-		  center: new google.maps.LatLng(54.89832877373636, -2.9350662231445312),
-		  zoom: 11,
-	    mapTypeId: google.maps.MapTypeId.ROADMAP
-		};
-		function init() {
-		  map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
-		}
-		init();
-		$(document).ready(function() {
-		  $("#map-canvas").hide();
-		});
-		collapse = function(element) {
-			event.preventDefault();
-		  $("#map-canvas").slideUp();
-		}
-		expand = function(element) {
-			event.preventDefault();
-		  $("#map-canvas").slideDown(resizeMap);
-		}
-		function resizeMap() {
-		  var center2 = map.getCenter();
-		  google.maps.event.trigger(map, "resize"); // resize map
-	    map.setCenter(center2);
-		}
-	</script>
 	<script type="text/javascript" src="assets/javascript/oneday.js"></script>
 
 	<!-- END SECTION: Footer -->
 	<!-- JS CDNs -->
+	<!--
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script>
+-->
 	<script src="http://vjs.zencdn.net/5.4.6/video.min.js"></script>
 	<!-- jQuery local fallback -->
 	<script>
-	window.jQuery || document.write('<script src="js/min/jquery-1.11.2.min.js"><\/script>')
+		window.jQuery || document.write('<script src="js/min/jquery-1.11.2.min.js"><\/script>')
 	</script>
+
 	<!-- JS Locals -->
 	<script src="assets/javascript/min/bootstrap.min.js"></script>
 	<script src="assets/javascript/min/modernizr-2.8.3-respond-1.4.2.min.js"></script>
-<!-- 	<script src="assets/javascript/min/retina.min.js"></script> -->
+	<!--<script src="assets/javascript/min/retina.min.js"></script>-->
+
 	<script src="assets/javascript/min/jquery.waypoints.min.js"></script>
 	<script src="assets/javascript/min/flickity.pkgd.min.js"></script>
 	<script src="assets/javascript/min/scripts-min.js"></script>
