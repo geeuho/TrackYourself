@@ -61,6 +61,8 @@ $("#food-submit-btn").on("click", function(){
 $("#exercise-submit-btn").on("click", function(){
 	var durationMins = $("#exercise-duration-input").val().trim();
 	var exercise = $("#exercise-dropdown-input option:selected").text();
+	var startLocation = $("#exercise-start-input").val().trim();
+	var endLocation = $("#exercise-end-input").val().trim();
 
 	if(exercise.length === 0) {
 		exercise = $("#exercise-string-input").val().trim();
@@ -75,7 +77,7 @@ $("#exercise-submit-btn").on("click", function(){
 	// to facilitate Nutritionix natural language API
 	durationMins = durationMins + " minutes";
 
-	populateExerciseTable(durationMins, exercise);
+	populateExerciseTable(durationMins, exercise, startLocation, endLocation);
 
 	// Clear inputs
 	$("#exercise-duration-input").val("");
@@ -176,10 +178,7 @@ function populateFoodTable(mealTime, quantity, food) {
     });
 }
 
-function populateExerciseTable(durationInMinutes, exercise) {
-	var apiKey = "a6ad2fabb4d3a05e6dbd5453734d01d8";    
-	var appId = "4ca70c03"
-
+function populateExerciseTable(durationInMinutes, exercise, startLocation, endLocation) {
   var queryURL = "https://trackapi.nutritionix.com/v2/natural/exercise";
 
   var combinedInput = durationInMinutes + " " + exercise;
@@ -192,50 +191,158 @@ function populateExerciseTable(durationInMinutes, exercise) {
         query: combinedInput,
     },
 	}).done(function(response) {
-		
+	
 		for(var i=0; i< response.exercises.length; i++) {
 			var exercise = response.exercises[0];
 
-			// New row
-			var tr = $("<tr></tr>");
+			// Check if the exercise needs a distance value
+			if(doesExerciseNeedDistance(exercise.name)) {
+				var directionsService = new google.maps.DirectionsService();
 
-			// New cell Time
-			var td = $("<td></td>");
-			td.text(exercise.duration_min);
-			td.attr("value", "durationMins");
-			tr.append(td);
+				var request = createGoogleApiRouteObject(exercise.name, startLocation, endLocation);
+	
+				directionsService.route(request, function(response, status) {
 
-			// New cell Type
-			td = $("<td></td>");
-			td.text(exercise.name);
-			td.attr("value", "exerciseType");
-			tr.append(td);
+					var distanceValueInMiles;
 
-			// Empty cell Distance
-			td = $("<td></td>");
-			td.text("");
-			td.attr("value", "distance");
-			tr.append(td);
+					if (status == google.maps.DirectionsStatus.OK ) {
+						var distance = response.routes[0].legs[0].distance.value;
+						
+						// In miles
+					 	distanceValueInMiles = distance / 1609.344;
+					}
 
-			// New cell Calories Burned
-			td = $("<td></td>");
-			td.text(exercise.nf_calories);
-			td.attr("value", "caloriesBurned");
-			tr.append(td);
+					// New row
+					var tr = $("<tr></tr>");
 
-			// New cell, contains delete button
-	    td = $("<td></td>");
+					// New cell Time
+					var td = $("<td></td>");
+					td.text(exercise.duration_min);
+					td.attr("value", "durationMins");
+					tr.append(td);
 
-	    var button = $("<button></button>");
-	    button.text("Delete");
-	    button.addClass("btn btn-primary add-submit-btn delete-row");
+					// New cell Type
+					td = $("<td></td>");
+					td.text(exercise.name);
+					td.attr("value", "exerciseType");
+					tr.append(td);
 
-	    td.append(button);
-	    tr.append(td);
+					// New cell Distance
+					td = $("<td></td>");
+					td.text(distanceValueInMiles.toFixed(2));
+					td.attr("value", "distance");
+					tr.append(td);
 
-			$("#exercise-results").append(tr);
+					// New cell Calories Burned
+					td = $("<td></td>");
+					td.text(exercise.nf_calories);
+					td.attr("value", "caloriesBurned");
+					tr.append(td);
+
+					// New cell, contains delete button
+			    td = $("<td></td>");
+
+			    var button = $("<button></button>");
+			    button.text("Delete");
+			    button.addClass("btn btn-primary add-submit-btn delete-row");
+
+			    td.append(button);
+			    tr.append(td);
+
+					$("#exercise-results").append(tr);
+
+				});
+			} else {
+				// New row
+				var tr = $("<tr></tr>");
+
+				// New cell Time
+				var td = $("<td></td>");
+				td.text(exercise.duration_min);
+				td.attr("value", "durationMins");
+				tr.append(td);
+
+				// New cell Type
+				td = $("<td></td>");
+				td.text(exercise.name);
+				td.attr("value", "exerciseType");
+				tr.append(td);
+
+				// New cell Distance
+				td = $("<td></td>");
+				td.text("0");
+				td.attr("value", "distance");
+				tr.append(td);
+
+				// New cell Calories Burned
+				td = $("<td></td>");
+				td.text(exercise.nf_calories);
+				td.attr("value", "caloriesBurned");
+				tr.append(td);
+
+				// New cell, contains delete button
+		    td = $("<td></td>");
+
+		    var button = $("<button></button>");
+		    button.text("Delete");
+		    button.addClass("btn btn-primary add-submit-btn delete-row");
+
+		    td.append(button);
+		    tr.append(td);
+
+				$("#exercise-results").append(tr);
+			}
 		}
 	});    
+}
+
+function doesExerciseNeedDistance(exercise) {
+	var result = false;
+
+	switch(exercise) {
+		case "walking":
+			result = true;
+			break;
+		case "running":
+			result =  true;
+			break;
+		case "bicycling":
+			result = true;
+			break;
+		default:
+			result = false;
+	}
+
+	return result;
+}
+
+function createGoogleApiRouteObject(exercise, startLocation, endLocation) {
+	var travelValue;
+
+	switch(exercise) {
+		case "walking":
+			travelvalue = google.maps.DirectionsTravelMode.WALKING;
+			break;
+		case "running":
+			// Google API does not have a RUNNING DirextionsTravelMode
+			travelvalue = google.maps.DirectionsTravelMode.WALKING;
+			break;
+		case "bicycling":
+			travelvalue = google.maps.DirectionsTravelMode.BICYCLING;
+			break;
+		default:
+			// If execution reaches here that means the exercise does not
+			// require a distance value
+			return 0;
+	}
+
+	var route = {
+		origin: startLocation,
+		destination: endLocation,
+		travelMode: travelvalue
+	}
+
+	return route;
 }
 
 function removeRowFromTable() {
