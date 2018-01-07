@@ -87,11 +87,11 @@
 /* Signup page styles */
 .panel-primary
 {
-  border-color: #bce8f1;
+  border-color: #EDEDED;
 }
 .panel-primary>.panel-heading
 {
-  background:#bce8f1;
+  background:#7AE2DE;
 
 }
 .panel-primary>.panel-body
