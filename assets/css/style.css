@@ -109,3 +109,18 @@
 	#food-input.red-border, #quantity-input.red-border {
 	border: 2px solid red;
 }
+
+/*Logo*/
+.logo {
+	font-size: 26px;
+}
+/*end logo*/
+
+/*crew text overlay*/
+.overlay {
+	padding-top: 12%;
+}
+/*end overlay*/
+
+
+
