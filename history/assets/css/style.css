@@ -1,3 +1,42 @@
+/*oneday.html*/
+
+/*Google Map API*/
+/*#map-canvas {
+	height: 400px;
+	width: 90%;*/
+	/*overflow:hidden;
+	z-index:-999;*/
+/*}*/
+
+#food-submit-btn, #exercise-submit-btn {
+	margin-top: 14px;
+}
+
+.oneday-hero {
+	color: #414A52 !important;
+}
+#food-section {
+	margin-top: -305px;
+}
+.add-submit-btn {
+	background-color: #7AE2DE !important;
+	border-color: #7AE2DE !important;
+}
+
+.add-submit-btn:hover {
+	background-color: #fff !important;
+	border-color: #7AE2DE !important;
+	color: #7AE2DE !important;
+}
+
+/*Nav login*/
+.dropdown-menu {
+		top: 130% !important;
+		left: -280px !important;
+		min-width: 240px !important;
+}
+
+/*Datepicker*/
 .ui-datepicker {
 	background: #fff; /* Old browsers */
 	background: #fff -moz-linear-gradient(top, #fcfcfc 0%, #fff 100%); /* FF3.6+ */
@@ -6,7 +45,7 @@
 	background: #fff -o-linear-gradient(top, #fcfcfc 0%, #fff 100%); /* Opera11.10+ */
 	background: #fff -ms-linear-gradient(top, #fcfcfc 0%, #fff 100%); /* IE10+ */
 	background: #fff linear-gradient(top, #fcfcfc 0%, #fff 100%); /* W3C */
-	font-size:11px;
+	font-size:18px;
 	padding:10px;
 	border:1px solid #ccc;
 }
@@ -35,3 +74,33 @@
 	text-align: center;
 	font-weight:bold;
 }
+/* End Datepicker*/
+
+/*Remove round border radius*/
+* {
+  -webkit-border-radius: 0 !important;
+     -moz-border-radius: 0 !important;
+          border-radius: 0 !important;
+}
+/*End round border radius*/
+
+/* Signup page styles */
+.panel-primary
+{
+  border-color: #bce8f1;
+}
+.panel-primary>.panel-heading
+{
+  background:#bce8f1;
+
+}
+.panel-primary>.panel-body
+{
+  background-color: #EDEDED;
+}
+
+/*oneday.html add food table*/
+#add-food-meal {
+	padding-top: 5px;
+}
+/*end oneday.html add food table*/

@@ -13,11 +13,13 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 	<!-- jQuery UI -->
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+<!-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script> -->
+
 
   <!-- Styles -->
 <link rel="stylesheet" type="text/css" href="assets/css/style.css">
 
+<!-- Calendar dropdown  -->
 <script>
 		$(function() {
 			$( "#start-date-input" ).datepicker();
@@ -27,6 +29,44 @@
 
 </head>
 <body>
+
+  <!-- navbar -->
+	<div class="container-fluid">
+		<div class="row">
+			<div class="header-nav-wrapper">
+				<div class="logo">
+					<a href="/index.html"><img src="assets/img/synthetica-logo.png" alt="Synthetica Freebie"></a>
+				</div>
+				<div class="primary-nav-wrapper">
+					<nav>
+						<ul class="primary-nav">
+							<li><a href="#">History</a></li>
+						</ul>
+					</nav>
+					<div class="secondary-nav-wrapper">
+						<ul class="secondary-nav">
+							<li class="subscribe signout"><a href="https://xtiane.github.io/TrackYourself/">Sign Out</a></li>
+							<li class="search"><a href="#search" class="show-search"><i class="fa fa-search"></i></a></li>
+						</ul>
+					</div>
+					<div class="search-wrapper">
+						<ul class="search">
+							<li>
+								<input type="text" id="search-input" placeholder="Start typing then hit enter to search">
+							</li>
+							<li>
+								<a href="#" class="hide-search"><i class="fa fa-close"></i></a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="navicon">
+					<a class="nav-toggle" href="#"><span></span></a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end of navbar -->
 
   <section id="date-section">
 		<div class="container">
@@ -61,7 +101,7 @@
 	</section>
 
  <br>
-
+    <!-- Chart -->
  <div class="row">
    <div class="col-md-1"></div>
       <div class="col-md-10">
@@ -77,17 +117,19 @@
 			<div class="col-lg-12">
 			  <div class="panel panel-default">
 			  	<div class="panel-heading">
-			    	<h3 class="panel-title"><strong>Diet</strong></h3>
+            <tr>
+              <th>Date:</th>
+            </tr>
+			    	<!-- <h3 class="panel-title"><strong>Diet</strong></h3> -->
 				  </div>
 				  <div class="panel-body">
 				  	<table class="table table-hover" id='diet-table-output'>
 				      <thead>
 				        <tr>
-									<th>Date</th>
+									<th>Type</th>
 									<th>Meal</th>
-									<th>Food</th>
-									<th>Quanity</th>
-									<th>Calories gained</th>
+									<th>Exercise</th>
+									<th>Calories</th>
 								</tr>
 							</thead>
 							<tbody id="diet-results">
@@ -98,38 +140,38 @@
 			</div> <!-- end col-lg-12 -->
 		</div><!--  end row -->
 	</div> <!-- end container -->
-</div>
 
-<br>
-
-<div class="container">
-  <div class="row">
-    <div class="col-lg-12">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h3 class="panel-title"><strong>Exercise</strong></h3>
-        </div>
-        <div class="panel-body">
-          <table class="table table-hover" id='exercise-table-output'>
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th>Time</th>
-                <th>Type</th>
-                <th>Distance (miles)</th>
-                <th>Calories burned</th>
-              </tr>
-            </thead>
-            <tbody id="exercise-results">
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div> <!-- end col-lg-12 -->
-  </div><!--  end row -->
- </div> <!-- end container -->
-</div>
-
+  <!-- SECTION: Footer -->
+	<footer class="has-padding footer-bg">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4 footer-branding">
+					<img class="footer-branding-logo" src="assets/img/synthetica-logo.png" alt="Synthetica freebie html5 css3 template logo">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12 footer-nav">
+					<ul class="footer-primary-nav">
+						<li><a href="#intro">Intro</a></li>
+						<li><a href="#team">The Crew</a></li>
+						<li><a href="articles#">How to Use</a></li>
+						<li><a href="#">Contact Us</a></li>
+					</ul>
+					<ul class="footer-share">
+						<li><a href="http://tympanus.net/codrops/licensing/">Licence</a></li>
+						<li><a href="#" class="share-trigger"><i class="fa fa-share"></i>Share</a></li>
+					</ul>
+					<div class="share-dropdown">
+						<ul>
+							<li><a href="#" class="share-twitter"><i class="fa fa-twitter"></i></a></li>
+							<li><a href="#" class="share-facebook"><i class="fa fa-facebook"></i></a></li>
+							<li><a href="#" class="share-linkedin"><i class="fa fa-linkedin"></i></a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</footer>
 
 
 </body>
