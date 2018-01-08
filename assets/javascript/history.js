@@ -20,14 +20,16 @@ var database = firebase.database();
 $("#submit-btn").on("click", function(event) {
 	event.preventDefault();
 
-	$("#diet-results").empty();
-
-	$("#exercise-results").empty();
+	$("#data-results").empty();
 
 	if(validateInput()) {
 		extractData();
 
 		$("#chart-div").css("display", "block");
+	} else {
+		$("#chart-div").css("display", "none");
+
+		$("#data-results").empty();
 	}
 });
 
@@ -139,161 +141,168 @@ function extractData() {
 
 	database.ref('/users/' + currentUserUid).orderByKey().startAt(startDate.format("YYYY-MM-DD")).endAt(endDate.format("YYYY-MM-DD")).once("value")
 		.then(function(snapshot) {
-			snapshot.forEach(function(datesSnapshot) {
-				// Looping through dates
-				var dateKey = moment(datesSnapshot.key, "YYYY-MM-DD");
 
-				graphLabels.push(dateKey.format("MM/DD/YYYY"));
+				if(!snapshot.exists()) {
+					createNotifyMessage("No Data Found", "glyphicon glyphicon-warning-sign", "info", "No data found for the provided date range.", "top");
 
-				var calorieIntake = 0;
-				var caloriesBurned = 0;
+					$("#chart-div").css("display", "none");
 
-				// Date only row
-				$("#diet-results").append(createDateOnlyRow(dateKey));
-				$("#exercise-results").append(createDateOnlyRow(dateKey));
-				// End row with date only
+				} else {
+					snapshot.forEach(function(datesSnapshot) {
 
-				var foodRows = 0;
-				var exerciseRows = 0;
+						// Looping through dates
+						var dateKey = moment(datesSnapshot.key, "YYYY-MM-DD");
 
-				var dayCalorieTotal = 0;
-				console.log("--->" + dayCalorieTotal);
+						graphLabels.push(dateKey.format("MM/DD/YYYY"));
 
-				datesSnapshot.forEach(function(dataForDate) {
-					dataForDate.forEach(function(data) {
-						var type = data.val().type;
-						var dataValues = data.val().data;
-						var calories = data.val().calories;
+						var calorieIntake = 0;
+						var caloriesBurned = 0;
 
-						dayCalorieTotal += calories;
+						// Date only row
+						$("#data-results").append(createDateOnlyRow(dateKey));
+						// End row with date only
 
-						// New row
-						var tr = $("<tr></tr>");
-						tr.addClass("c_" + dateKey + " data-row");
+						var foodRows = 0;
+						var exerciseRows = 0;
 
-						// Fill date column with empty cell
-						td = $("<td></td>");
-						tr.append(td);
+						var dayCalorieTotal = 0;
 
-						//Hide the row
-						tr.css("display", "none");
+						datesSnapshot.forEach(function(dataForDate) {
+							dataForDate.forEach(function(data) {
+								var type = data.val().type;
+								var dataValues = data.val().data;
+								var calories = data.val().calories;
 
-						if(type === "food") {
-							foodRows++;
+								dayCalorieTotal += calories;
 
-							td = $("<td></td>");
-							td.text(dataValues.mealTime);
+								// New row
+								var tr = $("<tr></tr>");
+								tr.addClass("c_" + dateKey + " data-row");
+
+								// Fill date column with empty cell
+								td = $("<td></td>");
+								tr.append(td);
+
+								//Hide the row
+								tr.css("display", "none");
+
+								if(type === "food") {
+									foodRows++;
+
+									td = $("<td></td>");
+									td.text(dataValues.mealTime);
+									tr.append(td);
+
+									// td = $("<td></td>");
+									// td.text(dataValues.servingQty);
+									// tr.append(td);
+
+									td = $("<td></td>");
+									td.text(dataValues.servingQty + " " + dataValues.foodName);
+									tr.append(td);
+
+									// Empty cells for exercise data
+									td = $("<td></td>");
+									td.text("--");
+									tr.append(td);
+
+									td = $("<td></td>");
+									td.text("--");
+									tr.append(td);
+									// End empty cells
+
+									td = $("<td></td>");
+									td.text(calories.toFixed(2));
+									tr.append(td);
+						
+									$("#data-results").append(tr);
+
+									calorieIntake += calories;
+								} else if(type === "exercise") {
+									exerciseRows++;
+
+									// Empty cells for food data
+									td = $("<td></td>");
+									td.text("--");
+									tr.append(td);
+
+									td = $("<td></td>");
+									td.text("--");
+									tr.append(td);
+									// End empty cells
+
+									td = $("<td></td>");
+									td.text(dataValues.durationMins + " minutes " + dataValues.exerciseType);
+									tr.append(td);
+
+									// td = $("<td></td>");
+									// td.text(dataValues.exerciseType);
+									// tr.append(td);
+
+									td = $("<td></td>");
+									td.text(dataValues.distance);
+									tr.append(td);	
+
+									td = $("<td></td>");
+									td.text(calories.toFixed(2));
+									tr.append(td);	
+
+									$("#data-results").append(tr);
+
+									caloriesBurned += calories;
+								}
+							});
+						});
+
+						// Add calorie total to date only cell
+						$("#total-" + dateKey).text("Total:  " + dayCalorieTotal.toFixed(2));
+
+						if(foodRows === 0) {
+							var tr = $("<tr></tr>");
+							tr.addClass("c_" + dateKey);
+
+							var td = $("<td></td>");
+							td.text("No food data found");
+							td.attr("colspan", "6");
+
 							tr.append(td);
 
-							// td = $("<td></td>");
-							// td.text(dataValues.servingQty);
-							// tr.append(td);
+							tr.css("display", "none");
 
-							td = $("<td></td>");
-							td.text(dataValues.servingQty + " " + dataValues.foodName);
+							$("#data-results").append(tr);
+						} else if(exerciseRows === 0) {
+							var tr = $("<tr></tr>");
+							tr.addClass("c_" + dateKey);
+
+							var td = $("<td></td>");
+							td.text("No exercise data found");
+							td.attr("colspan", "6");
+
 							tr.append(td);
 
-							// Empty cells for exercise data
-							td = $("<td></td>");
-							td.text("--");
-							tr.append(td);
+							tr.css("display", "none");
 
-							td = $("<td></td>");
-							td.text("--");
-							tr.append(td);
-							// End empty cells
-
-							td = $("<td></td>");
-							td.text(calories.toFixed(2));
-							tr.append(td);
-				
-							$("#results").append(tr);
-
-							calorieIntake += calories;
-						} else if(type === "exercise") {
-							exerciseRows++;
-
-							// Empty cells for food data
-							td = $("<td></td>");
-							td.text("--");
-							tr.append(td);
-
-							td = $("<td></td>");
-							td.text("--");
-							tr.append(td);
-							// End empty cells
-
-							td = $("<td></td>");
-							td.text(dataValues.durationMins + " minutes " + dataValues.exerciseType);
-							tr.append(td);
-
-							// td = $("<td></td>");
-							// td.text(dataValues.exerciseType);
-							// tr.append(td);
-
-							td = $("<td></td>");
-							td.text(dataValues.distance);
-							tr.append(td);	
-
-							td = $("<td></td>");
-							td.text(calories.toFixed(2));
-							tr.append(td);	
-
-							$("#results").append(tr);
-
-							caloriesBurned += calories;
+							$("#data-results").append(tr);
 						}
+
+						intakeGraphData.push({date: dateKey.format("MM/DD/YYYY"), intake: calorieIntake.toFixed(2)});
+						burnedGraphData.push({date: dateKey.format("MM/DD/YYYY"), burned: caloriesBurned.toFixed(2)});
 					});
-				});
 
-				// Add calorie total to date only cell
-				$("#total-" + dateKey).text(dayCalorieTotal.toFixed(2));
+					var intakeLineColors = ["#ff0000", "#ff4d4d", "#ff9999", "#ffe6e6"];
+					var burnedLineColors = ["#008000", "#00b300", "#00e600", "#1aff1a"];
 
-				if(foodRows === 0) {
-					var tr = $("<tr></tr>");
-					tr.addClass("c_" + dateKey);
-
-					var td = $("<td></td>");
-					td.text("No food data found");
-					td.attr("colspan", "6");
-
-					tr.append(td);
-
-					tr.css("display", "none");
-
-					$("#diet-results").append(tr);
-				} else if(exerciseRows === 0) {
-					var tr = $("<tr></tr>");
-					tr.addClass("c_" + dateKey);
-
-					var td = $("<td></td>");
-					td.text("No exercise data found");
-					td.attr("colspan", "6");
-
-					tr.append(td);
-
-					tr.css("display", "none");
-
-					$("#exercise-results").append(tr);
+					drawLineChart("myChart", // div_id
+		    								intakeGraphData,  // results1
+		    								burnedGraphData, // results2
+		    								"intake", // yColumn1
+			    							"Calorie Intake", // yLabel1
+			    							"burned", // yColumn2
+			    							"Calories Burned", // yLabel2
+										    "date", // xAxes
+										    intakeLineColors,
+										    burnedLineColors);
 				}
-
-				intakeGraphData.push({date: dateKey.format("MM/DD/YYYY"), intake: calorieIntake.toFixed(2)});
-				burnedGraphData.push({date: dateKey.format("MM/DD/YYYY"), burned: caloriesBurned.toFixed(2)});
-			});
-
-			var intakeLineColors = ["#ff0000", "#ff4d4d", "#ff9999", "#ffe6e6"];
-			var burnedLineColors = ["#008000", "#00b300", "#00e600", "#1aff1a"];
-
-			drawLineChart("myChart", // div_id
-    								intakeGraphData,  // results1
-    								burnedGraphData, // results2
-    								"intake", // yColumn1
-	    							"Calorie Intake", // yLabel1
-	    							"burned", // yColumn2
-	    							"Calories Burned", // yLabel2
-								    "date", // xAxes
-								    intakeLineColors,
-								    burnedLineColors);
 	});
 }
 
@@ -305,14 +314,21 @@ function createDateOnlyRow(dateKey) {
 	tr.attr("id", "row-" + dateKey);
 
 	var td = $("<td></td>");
+
 	var span = $("<span></span>");
 	span.text(dateKey.format("MM/DD/YYYY"));
+
 	td.append(span);
+
+	var div = $("<div></div>");
+	div.addClass("calorie-total-div");
 
 	span = $("<span></span>");
 	span.attr("id", "total-" + dateKey);
-	span.addClass("calorie-total-span");
-	td.append(span);
+
+	div.append(span);
+
+	td.append(div);
 
 	td.addClass("glyphicon glyphicon-triangle-right");
 	
