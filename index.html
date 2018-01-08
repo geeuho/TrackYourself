@@ -46,6 +46,7 @@
 	<link rel="stylesheet" href="assets/css/styles.css">
 	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+	<script src="https://www.gstatic.com/firebasejs/4.8.1/firebase.js"></script>
 </head>
 
 <body>
@@ -79,7 +80,10 @@
 			                <label for="pwd">Password:</label>
 			                <input type="password" class="form-control" id="pwd">
 			              </div>
-			              <button type="button" id="btnLogin" class="btn secondary login-text"><a href="https://xtiane.github.io/TrackYourself/oneday.html">Login</a></button>
+			              <button type="button" id="btnLogin" class="btn secondary login-text">Login</button>
+			              <br>
+			              <br>
+			              <span class="small" id="login-message"></span>
 			            </form>
 			            <div class="container-fluid">
 			              <br>
@@ -362,5 +366,6 @@
 		$(".oneday").append("<li><a href='#product'>One Day</a></li>")
 	</script> -->
 
+	<script type="text/javascript" src="assets/javascript/signin.js"></script>
 </body>
 </html>
