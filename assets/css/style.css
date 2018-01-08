@@ -141,8 +141,10 @@
 	cursor: pointer;
 }
 
-.calorie-total-span {
-	text-align: right;
+.calorie-total-div {
+	position: relative;
+	float: right;
+	left: 80px;
 }
 
 canvas {
