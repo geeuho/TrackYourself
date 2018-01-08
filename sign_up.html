@@ -3,6 +3,7 @@
 	<head>
     <meta charset="utf-8">
     <title>Track Yourself: Sign Up Page</title>
+		
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 		<script src="https://www.gstatic.com/firebasejs/4.8.1/firebase.js"></script>
 
@@ -41,84 +42,78 @@
     <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
-</head>
-<body>
 
-  <div class="row">
-    <div class="col-md-6 col-sm-12 col-lg-6 col-md-offset-3">
-		<div class="panel panel-primary">
-			<div class="panel-heading"><h2>Registration</h2>
-			</div>
+    <!-- Bootstrap Notify -->
+    <script type="text/javascript" src="assets/javascript/bootstrap-notify.min.js"></script>
+		<link rel="stylesheet" href="assets/css/animate.css">
+	</head>
+	<body>
 
-			<div class="panel-body">
-				<form name="myform">
-					<div class="form-group">
-						<label for="myName">First Name</label>
-						<input id="firstname" name="myName" class="form-control" type="text">
-						<span id="error_name" class="text-danger"></span>
+		  <div class="row">
+		    <div class="col-md-6 col-sm-12 col-lg-6 col-md-offset-3">
+				<div class="panel panel-primary">
+					<div class="panel-heading"><h2>Registration</h2>
 					</div>
 
-					<div class="form-group">
-						<label for="lastname">Last Name</label>
-						<input id="lastname" name="lastname" class="form-control" type="text" data-validation="email">
-						<span id="error_lastname" class="text-danger"></span>
+					<div class="panel-body">
+						<form name="myform">
+							<div class="form-group">
+								<label for="myName">First Name</label>
+								<input id="firstname" name="myName" class="form-control" type="text" title="Please enter your first name">
+							</div>
+
+							<div class="form-group">
+								<label for="lastname">Last Name</label>
+								<input id="lastname" name="lastname" class="form-control" type="text" title="Please enter your last name">
+							</div>
+
+		          <div class="form-group">
+								<label for="gender">Gender</label>
+								<select name="gender" id="gender" class="form-control">
+									<option selected>Male</option>
+									<option>Female</option>
+									<option>Other</option>
+								</select>
+							</div>
+
+							<div class="form-group">
+								<label for="age">Age</label>
+								<input id="age" name="age"  class="form-control" type="number" min="1" title="Please enter your age">
+							</div>
+
+							<div class="form-group">
+								<label for="weight">Weight (Pounds)</label>
+								<input type="number" id="weight" name="weight" class="form-control" min="1" title="Please enter your weight">
+							</div>
+
+		          <div class="form-group">
+								<label for="height">Height (Feet and Inches)</label>
+								<input type="text" id="height" name="height" class="form-control" placeholder="Example: 5'11" title="Please enter your height">
+							</div>
+
+		          <div class="form-group">
+								<label for="dob">Email</label>
+								<input type="email" name="email" id="email" class="form-control" title="Please enter an email address">
+							</div>
+
+							<div class="form-group">
+								<label for="username">Username</label>
+								<input type="text" name="username" id="username" class="form-control" title="Please enter a username">
+							</div>
+
+		          <div class="form-group">
+		            <label for="password" class="control-label">Password</label>
+		            <input type="password" class="form-control" id="password" name="password" value="" title="Please enter your password">
+		          </div>
+
+							<button id="submit-btn" type="submit" value="submit" class="btn btn-primary center add-submit-btn" type="submit">Submit</button>
+
+						</form>
+
 					</div>
-
-          <div class="form-group">
-						<label for="gender">Gender</label>
-						<select name="gender" id="gender" class="form-control">
-							<option selected>Male</option>
-							<option>Female</option>
-							<option>Other</option>
-						</select>
-						<span id="error_gender" class="text-danger"></span>
-					</div>
-
-					<div class="form-group">
-						<label for="age">Age</label>
-						<input id="age" name="age"  class="form-control" type="number" min="1" >
-						<span id="error_age" class="text-danger"></span>
-					</div>
-
-					<div class="form-group">
-						<label for="weight">Weight (Pounds)</label>
-						<input type="text" id="weight" name="weight" class="form-control" >
-						<span id="error_weight" class="text-danger"></span>
-					</div>
-
-          <div class="form-group">
-						<label for="height">Height (Feet and Inches)</label>
-						<input type="text" id="height" name="height" class="form-control" placeholder="Example: 5'11">
-						<span id="error_height" class="text-danger"></span>
-					</div>
-
-          <div class="form-group">
-						<label for="dob">Email</label>
-						<input type="text" name="email" id="email" class="form-control">
-						<span id="error_email" class="text-danger"></span>
-					</div>
-
-					<div class="form-group">
-						<label for="username">Username</label>
-						<input type"text" name="username" id="username" class="form-control">
-            <span class="help-block"></span>
-					</div>
-
-          <div class="form-group">
-            <label for="password" class="control-label">Password</label>
-            <input type="password" class="form-control" id="password" name="password" value="" required="" title="Please enter your password">
-            <span class="help-block"></span>
-          </div>
-
-					<button id="submit" type="submit" value="submit" class="btn btn-primary center add-submit-btn" type="submit">Submit</button>
-
-				</form>
-
+				</div>
 			</div>
 		</div>
-	</div>
-</div>
-<script type="text/javascript" src="assets/javascript/hardcodesignup.js"></script>
-</body>
-
+		<script type="text/javascript" src="assets/javascript/signup.js"></script>
+	</body>
 </html>
