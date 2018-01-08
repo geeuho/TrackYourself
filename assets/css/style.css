@@ -1,22 +1,19 @@
 /*oneday.html*/
 
 /*Google Map API*/
-#map-canvas {
+/*#map-canvas {
 	height: 400px;
-	width: 90%;
+	width: 90%;*/
 	/*overflow:hidden;
 	z-index:-999;*/
-}
+/*}*/
 
-#food-submit-btn, #exercise-submit-btn {
+#food-submit-btn, #exercise-submit-btn, .history-submit-btn {
 	margin-top: 14px;
 }
 
 .oneday-hero {
 	color: #414A52 !important;
-}
-#food-section {
-	margin-top: -305px;
 }
 .add-submit-btn {
 	background-color: #7AE2DE !important;
@@ -83,19 +80,81 @@
           border-radius: 0 !important;
 }
 /*End round border radius*/
-=======
+
 /* Signup page styles */
 .panel-primary
 {
-  border-color: #bce8f1;
+  border-color: #EDEDED;
 }
 .panel-primary>.panel-heading
 {
-  background:#bce8f1;
+  background:#7AE2DE;
 
 }
 .panel-primary>.panel-body
 {
   background-color: #EDEDED;
 }
->>>>>>> origin/master
+
+/*oneday.html add food table*/
+#add-food-meal {
+	padding-top: 5px;
+}
+/*end oneday.html add food table*/
+
+#start-date.red-border, #exercise-start-input.red-border, #exercise-end-input.red-border, #exercise-string-input.red-border, #exercise-duration-input.red-border, 
+	#food-input.red-border, #quantity-input.red-border {
+	border: 2px solid red;
+}
+
+/*Logo*/
+.logo {
+	font-size: 26px;
+}
+/*end logo*/
+
+/*crew text overlay*/
+.overlay {
+	padding-top: 12%;
+}
+/*end overlay*/
+
+/* Histort page */
+.table tr.data-row:nth-child(even) {
+	background-color: #f2f2f2;
+}
+
+#chart-div {
+	display: none;
+}
+
+.chart-container {
+  background-color: #263238;
+  padding: 20px;
+}
+
+.date-only {
+	background-color: #d9d9d9;
+}
+
+.date-only:hover {
+	cursor: pointer;
+}
+
+.calorie-total-div {
+	position: relative;
+	float: right;
+	left: 80px;
+}
+
+canvas {
+	width: 75%;
+	height: 75%;
+}
+
+#start-date-input.red-border, #end-date-input.red-border {
+	border: 2px solid red;
+}
+
+
+

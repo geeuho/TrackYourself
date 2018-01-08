@@ -17,15 +17,40 @@ firebase.initializeApp(config);
 var database = firebase.database();
 
 // Listeners
-$("#food-submit-btn").on("click", function(){
-	// Clear save messages
-	$("#save-messages").empty();
+$("#start-date").on("click", function(){
+	$(this).removeClass("red-border");
+});
 
+$("#exercise-dropdown-input").on("change", function() {
+	// Remove red-border from exercise input
+	$("#exercise-string-input").removeClass("red-border");
+
+	// Disable or enable the exercise text area based on drop down selection
+	if($("#exercise-dropdown-input option:selected").text().length === 0) {
+		$("#exercise-string-input").removeAttr("disabled");
+
+		$("#exercise-start-input").attr("disabled", "disabled");
+		$("#exercise-end-input").attr("disabled", "disabled");
+	} else {
+		$("#exercise-string-input").attr("disabled", "disabled");
+
+		$("#exercise-start-input").removeAttr("disabled");
+		$("#exercise-end-input").removeAttr("disabled");
+	}
+});
+
+$("#food-submit-btn").on("click", function(){
 	// Get meal time
 	var mealTime = $("#meal-time-input option:selected").text();
 	var quantity = $("#quantity-input").val().trim();
 	var food = $("#food-input").val().trim();
 
+	// Validate input
+	if(!validateFoodEntry()) {
+		return;
+	}
+
+	// Populate the food table
 	populateFoodTable(mealTime, quantity, food);
 
 	// Clear inputs
@@ -34,30 +59,35 @@ $("#food-submit-btn").on("click", function(){
 });
 
 $("#exercise-submit-btn").on("click", function(){
-	// Clear save messages
-	$("#save-messages").empty();
-
 	var durationMins = $("#exercise-duration-input").val().trim();
 	var exercise = $("#exercise-dropdown-input option:selected").text();
+	var startLocation = $("#exercise-start-input").val().trim();
+	var endLocation = $("#exercise-end-input").val().trim();
 
 	if(exercise.length === 0) {
 		exercise = $("#exercise-string-input").val().trim();
+	}
+
+	// Validate input
+	if(!validateExerciseEntry()) {
+		return;
 	}
 
 	// Appending the word "minutes" to duration input in order
 	// to facilitate Nutritionix natural language API
 	durationMins = durationMins + " minutes";
 
-	populateExerciseTable(durationMins, exercise);
+	populateExerciseTable(durationMins, exercise, startLocation, endLocation);
 
 	// Clear inputs
 	$("#exercise-duration-input").val("");
 
 	if($("#exercise-string-input").val().length > 0) {
 		$("#exercise-string-input").val("");
-	} else {
-		$($("#exercise-dropdown-input").children()[0]).prop("selected", true);
-	}
+	} 
+	// else {
+	// 	$($("#exercise-dropdown-input").children()[0]).prop("selected", true);
+	// }
 
 	$("#exercise-start-input").val("");
 	$("#exercise-end-input").val("");
@@ -65,11 +95,26 @@ $("#exercise-submit-btn").on("click", function(){
 
 $(document).on("click", ".delete-row", removeRowFromTable);
 
+$(document).on("click", ".form-control", updateFormControl);
+
 $("#save").on("click", function(event) {
 	event.preventDefault();
 
 	saveData();
 });
+
+$("#clear-data").on("click", function(event){
+	event.preventDefault();
+
+	$("#food-results").empty();
+	$("#exercise-results").empty();
+});
+
+// End Listeners
+
+function updateFormControl() {
+	$(this).removeClass("red-border");
+}
 
 function populateFoodTable(mealTime, quantity, food) {
 	var userInput = mealTime + " " + quantity + " " + food;
@@ -133,10 +178,7 @@ function populateFoodTable(mealTime, quantity, food) {
     });
 }
 
-function populateExerciseTable(durationInMinutes, exercise) {
-	var apiKey = "a6ad2fabb4d3a05e6dbd5453734d01d8";    
-	var appId = "4ca70c03"
-
+function populateExerciseTable(durationInMinutes, exercise, startLocation, endLocation) {
   var queryURL = "https://trackapi.nutritionix.com/v2/natural/exercise";
 
   var combinedInput = durationInMinutes + " " + exercise;
@@ -149,50 +191,158 @@ function populateExerciseTable(durationInMinutes, exercise) {
         query: combinedInput,
     },
 	}).done(function(response) {
-		
+	
 		for(var i=0; i< response.exercises.length; i++) {
 			var exercise = response.exercises[0];
 
-			// New row
-			var tr = $("<tr></tr>");
+			// Check if the exercise needs a distance value
+			if(doesExerciseNeedDistance(exercise.name)) {
+				var directionsService = new google.maps.DirectionsService();
 
-			// New cell Time
-			var td = $("<td></td>");
-			td.text(exercise.duration_min);
-			td.attr("value", "durationMins");
-			tr.append(td);
+				var request = createGoogleApiRouteObject(exercise.name, startLocation, endLocation);
+	
+				directionsService.route(request, function(response, status) {
 
-			// New cell Type
-			td = $("<td></td>");
-			td.text(exercise.name);
-			td.attr("value", "exerciseType");
-			tr.append(td);
+					var distanceValueInMiles;
 
-			// Empty cell Distance
-			td = $("<td></td>");
-			td.text("");
-			td.attr("value", "distance");
-			tr.append(td);
+					if (status == google.maps.DirectionsStatus.OK ) {
+						var distance = response.routes[0].legs[0].distance.value;
+						
+						// In miles
+					 	distanceValueInMiles = distance / 1609.344;
+					}
 
-			// New cell Calories Burned
-			td = $("<td></td>");
-			td.text(exercise.nf_calories);
-			td.attr("value", "caloriesBurned");
-			tr.append(td);
+					// New row
+					var tr = $("<tr></tr>");
 
-			// New cell, contains delete button
-	    td = $("<td></td>");
+					// New cell Time
+					var td = $("<td></td>");
+					td.text(exercise.duration_min);
+					td.attr("value", "durationMins");
+					tr.append(td);
 
-	    var button = $("<button></button>");
-	    button.text("Delete");
-	    button.addClass("btn btn-primary add-submit-btn delete-row");
+					// New cell Type
+					td = $("<td></td>");
+					td.text(exercise.name);
+					td.attr("value", "exerciseType");
+					tr.append(td);
 
-	    td.append(button);
-	    tr.append(td);
+					// New cell Distance
+					td = $("<td></td>");
+					td.text(distanceValueInMiles.toFixed(2));
+					td.attr("value", "distance");
+					tr.append(td);
 
-			$("#exercise-results").append(tr);
+					// New cell Calories Burned
+					td = $("<td></td>");
+					td.text(exercise.nf_calories);
+					td.attr("value", "caloriesBurned");
+					tr.append(td);
+
+					// New cell, contains delete button
+			    td = $("<td></td>");
+
+			    var button = $("<button></button>");
+			    button.text("Delete");
+			    button.addClass("btn btn-primary add-submit-btn delete-row");
+
+			    td.append(button);
+			    tr.append(td);
+
+					$("#exercise-results").append(tr);
+
+				});
+			} else {
+				// New row
+				var tr = $("<tr></tr>");
+
+				// New cell Time
+				var td = $("<td></td>");
+				td.text(exercise.duration_min);
+				td.attr("value", "durationMins");
+				tr.append(td);
+
+				// New cell Type
+				td = $("<td></td>");
+				td.text(exercise.name);
+				td.attr("value", "exerciseType");
+				tr.append(td);
+
+				// New cell Distance
+				td = $("<td></td>");
+				td.text("0");
+				td.attr("value", "distance");
+				tr.append(td);
+
+				// New cell Calories Burned
+				td = $("<td></td>");
+				td.text(exercise.nf_calories);
+				td.attr("value", "caloriesBurned");
+				tr.append(td);
+
+				// New cell, contains delete button
+		    td = $("<td></td>");
+
+		    var button = $("<button></button>");
+		    button.text("Delete");
+		    button.addClass("btn btn-primary add-submit-btn delete-row");
+
+		    td.append(button);
+		    tr.append(td);
+
+				$("#exercise-results").append(tr);
+			}
 		}
 	});    
+}
+
+function doesExerciseNeedDistance(exercise) {
+	var result = false;
+
+	switch(exercise) {
+		case "walking":
+			result = true;
+			break;
+		case "running":
+			result =  true;
+			break;
+		case "bicycling":
+			result = true;
+			break;
+		default:
+			result = false;
+	}
+
+	return result;
+}
+
+function createGoogleApiRouteObject(exercise, startLocation, endLocation) {
+	var travelValue;
+
+	switch(exercise) {
+		case "walking":
+			travelvalue = google.maps.DirectionsTravelMode.WALKING;
+			break;
+		case "running":
+			// Google API does not have a RUNNING DirextionsTravelMode
+			travelvalue = google.maps.DirectionsTravelMode.WALKING;
+			break;
+		case "bicycling":
+			travelvalue = google.maps.DirectionsTravelMode.BICYCLING;
+			break;
+		default:
+			// If execution reaches here that means the exercise does not
+			// require a distance value
+			return 0;
+	}
+
+	var route = {
+		origin: startLocation,
+		destination: endLocation,
+		travelMode: travelvalue
+	}
+
+	return route;
 }
 
 function removeRowFromTable() {
@@ -203,61 +353,12 @@ function removeRowFromTable() {
 	$(rowToRemove).remove();
 }
 
-// The function below has been replaced by logic in the saveData function
-/*function saveFoodRows(foodResults) {
-	var todaysDate = moment($("#date").text(), "ddd MMM DD YYYY");
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/master
-	var dataObj = {};
-	for(var i=0; i<foodResults.children().length; i++) {
-		if($(foodResults.children()[i]).text() === "Delete") {
-			database.ref("/" + todaysDate.format("x") + "/food").push().set(dataObj);
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/master
-			// Create a new object for the next set of data
-			dataObj = {};
-		} else {
-			dataObj[$(foodResults.children()[i]).attr("value")] = $(foodResults.children()[i]).text();
-		}		
-	}
-}*/
-<<<<<<< HEAD
-=======
-
-// The function below has been replaced by logic in the saveData function
-/*function saveExerciseRows(exerciseResults) {
-	var todaysDate = moment($("#date").text(), "ddd MMM DD YYYY");
->>>>>>> origin/master
-
-// The function below has been replaced by logic in the saveData function
-/*function saveExerciseRows(exerciseResults) {
-	var todaysDate = moment($("#date").text(), "ddd MMM DD YYYY");
-	var dataObj = {};
-	for(var i=0; i<exerciseResults.children().length; i++) {
-		if($(exerciseResults.children()[i]).text() === "Delete") {
-			database.ref("/" + todaysDate.format("x") + "/exercise").push().set(dataObj);
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/master
-			// Create a new object for the next set of data
-			dataObj = {};
-		} else {
-			dataObj[$(exerciseResults.children()[i]).attr("value")] = $(exerciseResults.children()[i]).text();
-		}		
-	}
-}*/
-
 function saveData() {
 	var foodResults = $("#food-results").children("tr");
 
 	var exerciseResults = $("#exercise-results").children("tr");
 
-	var dateValue = moment($("#date").text(), "ddd MMM DD YYYY");
+	var dateValue = moment($("#start-date").val().trim(), "MM/DD/YYYY");
 
 	var dateArray = [];
 	
@@ -342,7 +443,134 @@ function saveData() {
 
 	if(dateArray.length > 0) {
 		database.ref("/users/" + userId).child(dateValue.format("YYYY-MM-DD")).push().set(dateArray);
+
+		// Notify user
+		createNotifyMessage("Save Data", "glyphicon glyphicon-warning-sign", "info", "Food and exercise data saved for " + dateValue.format("MM/DD/YYYY"));
 	} else {
-		console.log("no data");
+		createNotifyMessage("Save Data", "glyphicon glyphicon-warning-sign", "info", "No data to save.", "top");
 	}
 }
+
+// datepicker: available dates user can pick
+$(function() {
+	$( "#start-date" ).datepicker({
+		minDate: '-10',
+		maxDate: '0'
+	});
+ });
+
+// Validate food input
+function validateFoodEntry(){
+	var quantity = $("#quantity-input").val().trim();
+	var food = $("#food-input").val().trim();
+
+	var date = $("#start-date").val().trim();
+
+	// Validate input
+	if(date.length === 0) {
+		createNotifyMessage("Missing Value", "glyphicon glyphicon-warning-sign", "danger", "Please select a valid date.", "top");
+
+		$("#start-date").addClass("red-border");
+
+		return false;
+	}
+
+	if(quantity.length === 0) {
+		createNotifyMessage("Missing Value", "glyphicon glyphicon-warning-sign", "danger", "Food quantity value must be specified.", "top");
+
+		$("#quantity-input").addClass("red-border");
+
+		return false;
+	}
+
+	if(food.length === 0) {
+		createNotifyMessage("Missing Value", "glyphicon glyphicon-warning-sign", "danger", "Food value must be specified.", "top");
+
+		$("#food-input").addClass("red-border");
+
+		return false;
+	}
+
+	return true;
+}
+
+// Validate exercise input
+function validateExerciseEntry() {
+	var date = $("#start-date").val().trim();
+	var durationMins = $("#exercise-duration-input").val().trim();
+	var exercise = $("#exercise-string-input").val().trim();
+	var exerciseDropDownValue = $("#exercise-dropdown-input option:selected").text();
+
+	var startLocation = $("#exercise-start-input").val().trim();
+	var endLocation = $("#exercise-end-input").val().trim();
+
+	// Validate input
+	if(date.length === 0) {
+		createNotifyMessage("Missing Value", "glyphicon glyphicon-warning-sign", "danger", "Please select a valid date.", "top");
+
+		$("#start-date").addClass("red-border");
+
+		return false;
+	}
+
+	if(durationMins.length === 0) {
+		createNotifyMessage("Missing Value", "glyphicon glyphicon-warning-sign", "danger", "Exercise minutes value must be specified.", "top");
+
+		$("#exercise-duration-input").addClass("red-border");
+
+		return false;
+	}
+
+	if(exercise.length === 0 && exerciseDropDownValue.length == 0) {
+		createNotifyMessage("Missing Value", "glyphicon glyphicon-warning-sign", "danger", "Exercise value must be specified.", "top");
+
+		$("#exercise-string-input").addClass("red-border");
+
+		return false;
+	}
+
+	if(exerciseDropDownValue.length > 0) {
+		if(startLocation.length === 0) {
+			createNotifyMessage("Missing Value", "glyphicon glyphicon-warning-sign", "danger", "Exercise start location value must be specified.", "top");
+
+			$("#exercise-start-input").addClass("red-border");
+
+			return false;
+		}
+
+		if(endLocation.length === 0) {
+			createNotifyMessage("Missing Value", "glyphicon glyphicon-warning-sign", "danger", "Exercise end location value must be specified.", "top");
+
+			$("#exercise-end-input").addClass("red-border");
+
+			return false;
+		}
+	}
+
+	return true;
+}
+
+// Notify messages
+function createNotifyMessage(title, glyphicon, type, message, from) {
+	$.notify({
+		title: "<strong>" + title + "</strong> - ",
+		icon: glyphicon,
+		message: message,
+	},{
+		type: type,
+		animate: {
+  	enter: "animated fadeInDown",
+  	exit: "animated fadeOutRight"
+	},
+		placement: {
+  		from: from,
+  		align: "left"
+	},
+		offset: 20,
+		spacing: 10,
+		z_index: 1031,
+	});
+}
+
+
+
