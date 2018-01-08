@@ -119,5 +119,40 @@
 }
 /*end overlay*/
 
+/* Histort page */
+.table tr.data-row:nth-child(even) {
+	background-color: #f2f2f2;
+}
+
+#chart-div {
+	display: none;
+}
+
+.chart-container {
+  background-color: #263238;
+  padding: 20px;
+}
+
+.date-only {
+	background-color: #d9d9d9;
+}
+
+.date-only:hover {
+	cursor: pointer;
+}
+
+.calorie-total-span {
+	text-align: right;
+}
+
+canvas {
+	width: 75%;
+	height: 75%;
+}
+
+#start-date-input.red-border, #end-date-input.red-border {
+	border: 2px solid red;
+}
+
 
 
