@@ -73,7 +73,9 @@ $("#exercise-submit-btn").on("click", function(){
 	var endLocation = $("#exercise-end-input").val().trim();
 
 	if(exercise.length === 0) {
-		exercise = $("#exercise-string-input").val().trim();
+		if($("#exercise-string-input").val().length > 0) {
+			exercise = $("#exercise-string-input").val().trim();
+		}
 	}
 
 	// Validate input
@@ -138,7 +140,6 @@ function populateFoodTable(mealTime, quantity, food) {
             timezone: "US/Pacific",
         },
     }).done(function(response) {
-    	
     	for(var i=0; i< response.foods.length; i++) {
 				// Create a new row for the food item
 		    var food = response.foods[i];
@@ -183,13 +184,29 @@ function populateFoodTable(mealTime, quantity, food) {
 		    // Append row to table body
 		    $("#food-results").append(tr);
 			}
-    });
+	}).fail(function(response) {
+		createNotifyMessage("Add Food", "glyphicon glyphicon-warning-sign", "danger", response.responseJSON.message);
+  });
 }
 
-function populateExerciseTable(durationInMinutes, exercise, startLocation, endLocation) {
+function populateExerciseTable(durationInMinutes, exerciseInput, startLocation, endLocation) {
   var queryURL = "https://trackapi.nutritionix.com/v2/natural/exercise";
 
-  var combinedInput = durationInMinutes + " " + exercise;
+  var combinedInput = "";
+
+  if(exerciseInput.length === 0) {
+  	combinedInput = "";
+  } else {
+  	if(isNaN(exerciseInput)) {
+  		combinedInput = durationInMinutes + " " + exerciseInput;
+  	} else {
+  		// Quick and dirty validation, not ideal but meh =) can use improvement!
+  		createNotifyMessage("Add Exercise", "glyphicon glyphicon-warning-sign", "danger", "No exercises were recognised in your request.");
+
+  		return;
+  	}
+  	
+  }
 
 	$.ajax({
 		url: queryURL,
@@ -202,6 +219,12 @@ function populateExerciseTable(durationInMinutes, exercise, startLocation, endLo
 	
 		for(var i=0; i< response.exercises.length; i++) {
 			var exercise = response.exercises[0];
+
+			if(exercise.name.toLowerCase() !== exerciseInput.toLowerCase()) {
+				createNotifyMessage("Add Exercise", "glyphicon glyphicon-warning-sign", "danger", "No exercises were recognised in your request.");
+
+				return;
+			}
 
 			// Check if the exercise needs a distance value
 			if(doesExerciseNeedDistance(exercise.name)) {
@@ -301,6 +324,8 @@ function populateExerciseTable(durationInMinutes, exercise, startLocation, endLo
 				$("#exercise-results").append(tr);
 			}
 		}
+	}).fail(function(response) {
+		createNotifyMessage("Add Exercise", "glyphicon glyphicon-warning-sign", "danger", response.responseJSON.message);
 	});    
 }
 
