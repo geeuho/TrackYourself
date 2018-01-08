@@ -102,11 +102,6 @@
 }
 /*end oneday.html add food table*/
 
-#start-date.red-border, #exercise-start-input.red-border, #exercise-end-input.red-border, #exercise-string-input.red-border, #exercise-duration-input.red-border, 
-	#food-input.red-border, #quantity-input.red-border {
-	border: 2px solid red;
-}
-
 /*Logo*/
 .logo {
 	font-size: 26px;
@@ -152,7 +147,10 @@ canvas {
 	height: 75%;
 }
 
-#start-date-input.red-border, #end-date-input.red-border {
+#start-date-input.red-border, #end-date-input.red-border, #start-date.red-border, #exercise-start-input.red-border, #exercise-end-input.red-border, 
+	#exercise-string-input.red-border, #exercise-duration-input.red-border, #food-input.red-border, #quantity-input.red-border, #firstname.red-border,
+	#lastname.red-border, #age.red-border, #weight.red-border, #height.red-border, #email.red-border, #username.red-border, #password.red-border {
+	
 	border: 2px solid red;
 }
 
