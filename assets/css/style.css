@@ -8,7 +8,7 @@
 	z-index:-999;*/
 /*}*/
 
-#food-submit-btn, #exercise-submit-btn {
+#food-submit-btn, #exercise-submit-btn, .history-submit-btn {
 	margin-top: 14px;
 }
 
