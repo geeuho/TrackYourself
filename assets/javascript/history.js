@@ -16,6 +16,14 @@ firebase.initializeApp(config);
 
 var database = firebase.database();
 
+var loggedInUser = sessionStorage.username;
+
+$(document).ready(function(){
+  if(!sessionStorage.username) {
+  	window.location = "./index.html";
+  }
+});
+
 // Listeners
 $("#submit-btn").on("click", function(event) {
 	event.preventDefault();
@@ -137,9 +145,7 @@ function extractData() {
 	var intakeGraphData = [];
 	var burnedGraphData = [];
 
-	var currentUserUid = "UID1234";
-
-	database.ref('/users/' + currentUserUid).orderByKey().startAt(startDate.format("YYYY-MM-DD")).endAt(endDate.format("YYYY-MM-DD")).once("value")
+	database.ref('/users/' + loggedInUser).orderByKey().startAt(startDate.format("YYYY-MM-DD")).endAt(endDate.format("YYYY-MM-DD")).once("value")
 		.then(function(snapshot) {
 
 				if(!snapshot.exists()) {

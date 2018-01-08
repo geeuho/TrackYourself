@@ -16,6 +16,14 @@ firebase.initializeApp(config);
 
 var database = firebase.database();
 
+var loggedinUser = sessionStorage.username;
+
+$(document).ready(function(){
+  if(!sessionStorage.username) {
+  	window.location = "./index.html";
+  }
+});
+
 // Listeners
 $("#start-date").on("click", function(){
 	$(this).removeClass("red-border");
@@ -439,10 +447,8 @@ function saveData() {
 	}
 
 	// Push the date array into firebase for the current user
-	var userId = "UID1234";
-
 	if(dateArray.length > 0) {
-		database.ref("/users/" + userId).child(dateValue.format("YYYY-MM-DD")).push().set(dateArray);
+		database.ref("/users/" + loggedinUser).child(dateValue.format("YYYY-MM-DD")).push().set(dateArray);
 
 		// Notify user
 		createNotifyMessage("Save Data", "glyphicon glyphicon-warning-sign", "info", "Food and exercise data saved for " + dateValue.format("MM/DD/YYYY"));

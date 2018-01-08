@@ -11,6 +11,10 @@ firebase.initializeApp(config);
 
 var database = firebase.database();
 
+$(document).ready(function(){
+  sessionStorage.clear();
+});
+
 $(document).on("click", ".form-control", loginInputClicked);
 
 $("#btnLogin").on("click", function(){
@@ -31,7 +35,7 @@ function userLogin(userName, password) {
       	if(password === snapshot.child('password').val())
         {
           // Allow login
-          localStorage.setItem("username", userName);
+          sessionStorage.setItem("username", userName);
           window.location = "./oneday.html";
         } else {
           $("#login-message").text("Incorrect Username or Password");
