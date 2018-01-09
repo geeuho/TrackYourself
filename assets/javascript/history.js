@@ -53,10 +53,10 @@ $("#end-date-input").on("click", function() {
 });
 
 
-$(function() {
+/*$(function() {
 	$( "#start-date-input" ).datepicker();
 	$( "#end-date-input" ).datepicker();
-});
+});*/
 
 $(function() {
 	$( "#start-date-input" ).datepicker({
