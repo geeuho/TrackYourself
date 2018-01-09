@@ -58,6 +58,18 @@ $(function() {
 	$( "#end-date-input" ).datepicker();
 });
 
+$(function() {
+	$( "#start-date-input" ).datepicker({
+		maxDate: '0'
+	});
+ });
+
+$(function() {
+	$( "#end-date-input" ).datepicker({
+		maxDate: '0'
+	});
+ });
+
 /*$(function() {
 	$( "#tabs" ).tabs().addClass( "ui-tabs-vertical ui-helper-clearfix" );
 	$( "#tabs li" ).removeClass( "ui-corner-top" ).addClass( "ui-corner-left" );
