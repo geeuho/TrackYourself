@@ -1,5 +1,9 @@
 # TrackYourself
 
+![Home Page](assets/img/github/screenshot1.png)
+![Input](assets/img/github/screenshot2.png)
+![History](assets/img/github/screenshot3.png)
+
 ## What Is it?
 A web based application using Firebase, used to help you keep track of daily calorie intake as well as daily calories burned.
 
